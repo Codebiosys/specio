@@ -50,8 +50,8 @@ Veripy2Specio includes utility options that do not perform the actual conversion
 
 ```bash
 # Validate that a given file is a valid VeriPy output file.
-PYTHONPATH=. python -m veripy2specio --verify-veripy
+PYTHONPATH=. python -m veripy2specio --verify-veripy <input>
 
 # Validate that a given file is a valid Specio File
-PYTHONPATH=. python -m veripy2specio --verify-specio
+PYTHONPATH=. python -m veripy2specio --verify-specio <input>
 ```
