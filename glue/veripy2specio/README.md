@@ -31,7 +31,7 @@ PYTHONPATH=. py.test
 ```
 
 
-## Transforming Formata: Veripy to Specio
+## Transforming Format: Veripy to Specio
 
 To convert a Veripy output file into a Specio report document, simply run the following command.
 
