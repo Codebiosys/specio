@@ -1,6 +1,59 @@
 # Components
 
-tag = {}
+
+tag = {
+    # Nothing here
+}
+
+
+media = {
+    'type': 'object',
+    'properties': {
+        'type': {'type': 'string'}
+    },
+    'required': [
+        'type'
+    ]
+}
+
+
+embedding = {
+    'type': 'object',
+    'properties': {
+        'data': {'type': 'string'},
+        'media': media
+    },
+    'required': [
+        'data',
+        'media'
+    ]
+}
+
+
+result = {
+    'type': 'object',
+    'properties': {
+        'duration': {'type': 'integer'},
+        'status': {'type': 'string'}
+    },
+    'required': [
+        'duration',
+        'status'
+    ]
+}
+
+
+match = {
+    'type': 'object',
+    'properties': {
+        'location': {
+            'type': 'string'
+        }
+    },
+    'required': [
+        'location'
+    ]
+}
 
 
 step = {
@@ -9,27 +62,11 @@ step = {
         'keyword': {'type': 'string'},
         'line': {'type': 'integer'},
         'name': {'type': 'string'},
-        'match': {
-            'type': 'object',
-            'properties': {
-                'location': {
-                    'type': 'string'
-                }
-            },
-            'required': [
-                'location'
-            ]
-        },
-        'result': {
-            'type': 'object',
-            'properties': {
-                'duration': {'type': 'integer'},
-                'status': {'type': 'string'}
-            },
-            'required': [
-                'duration',
-                'status'
-            ]
+        'match': match,
+        'result': result,
+        'embeddings': {
+          'type': 'array',
+          'items': embedding
         },
         'step_type': {'type': 'string'}
     },
@@ -77,42 +114,43 @@ scenario = {
 }
 
 
+feature = {
+    'type': 'object',
+    'properties': {
+        'description': {'type': 'string'},
+        'elements': {
+            'type': 'array',
+            'items': scenario
+        },
+        'id': {'type': 'string'},
+        'keyword': {'type': 'string'},
+        'line': {'type': 'integer'},
+        'name': {'type': 'string'},
+        'status': {'type': 'string'},
+        'uri': {'type': 'string'},
+        'tags': {
+            'type': 'array',
+            'items': tag
+        },
+    },
+    'required': [
+        'description',
+        'elements',
+        'id',
+        'keyword',
+        'line',
+        'name',
+        'status',
+        'tags',
+        'uri'
+    ]
+}
+
+
 # Overall Schema
 
 
 schema = {
     'type': 'array',
-    'items': [
-        {
-          'type': 'object',
-          'properties': {
-            'description': {'type': 'string'},
-            'elements': {
-              'type': 'array',
-              'items': scenario
-            },
-            'id': {'type': 'string'},
-            'keyword': {'type': 'string'},
-            'line': {'type': 'integer'},
-            'name': {'type': 'string'},
-            'status': {'type': 'string'},
-            'uri': {'type': 'string'},
-            'tags': {
-                'type': 'array',
-                'items': tag
-            },
-          },
-          'required': [
-            'description',
-            'elements',
-            'id',
-            'keyword',
-            'line',
-            'name',
-            'status',
-            'tags',
-            'uri'
-          ]
-        }
-    ]
+    'items': feature,
 }
