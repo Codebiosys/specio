@@ -32,7 +32,11 @@ class Veripy2SpecioTransform(object):
     # Transformation Methods
 
     def group_steps(self, steps):
-        """  """
+        """ Given a list of steps, group them into 2 bins: given_when and then
+        based on their keyword.
+
+        AND/BUT statements are lumped in with their predecesor.
+        """
         groups = []
         switch = '--invalid--'
 
