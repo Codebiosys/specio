@@ -2,6 +2,7 @@ import json
 
 from veripy2specio.configuration import Configuration
 from veripy2specio.schemas import validate, INPUT_SCHEMA, OUTPUT_SCHEMA
+from veripy2specio.transforms import Veripy2SpecioTransform
 
 
 def load_input(config):
@@ -13,11 +14,6 @@ def load_input(config):
 def dump_output(output, config):
     validate(output, OUTPUT_SCHEMA)
     config.output.write(json.dumps(output))
-
-
-def transform(input, config):
-    # TODO: Write actual transform.
-    return input
 
 
 def main():
@@ -34,5 +30,6 @@ def main():
     else:
         # Convert the file.
         input = load_input(config)
-        output = transform(input, config)
+        transform = Veripy2SpecioTransform(config)
+        output = transform(input)
         dump_output(output, config)
