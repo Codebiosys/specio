@@ -121,6 +121,5 @@ class Veripy2SpecioTransform(object):
                 'description': self.description_from_feature(feature),
                 'scenarios': scenarios,
                 'scenario_tags': scenario_tags,
-                'tags': [],
                 **feature,
             }
