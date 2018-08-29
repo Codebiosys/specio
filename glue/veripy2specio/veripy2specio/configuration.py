@@ -33,6 +33,14 @@ class Configuration():
               ),
               default=False)),
 
+        (('--verify-config',),
+         dict(action='store_true',
+              help=(
+                'A convenience utility that validates the input against the configuration '
+                'format schema. This does not perform any transformations.'
+              ),
+              default=False)),
+
         # Positional Arguments
 
         (('input',),
