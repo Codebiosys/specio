@@ -1,0 +1,41 @@
+#! /usr/bin/python3
+
+from contextlib import contextmanager
+from time import sleep
+import os
+import os.path
+
+
+PIDFILE = '/tmp/watchmen.pid'
+
+
+@contextmanager
+def lock():
+  """ A context manager for locking a process to a single running instance.
+  This context manager writes to a pidfile and if, in doing so, sees a previously
+  existing one, will terminate the program.
+  """
+  if os.path.exists(PIDFILE):
+    raise Exception('There\'s already a running instance.\nTerminating...')
+  try:
+    yield None
+  except:  # flake8: noqa
+    # Catch everything, even keyboard errors.
+    pass
+  finally:
+    os.remove(PIDFILE)
+
+
+def main():
+  while True:
+    # TODO: Scan dirs and run commands.
+    print('Ping.')
+    print(
+      '\n'.join(os.listdir('/opt/dropzone'))
+    )
+    sleep(10)
+
+
+if __name__ == '__main__':
+  with lock():
+    main()

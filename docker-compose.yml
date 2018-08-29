@@ -1,0 +1,38 @@
+version: "3"
+
+services:
+
+  veripy:
+    build: https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/veri-py.git
+    restart: always
+    depends_on:
+      - pdfs
+    volumes:
+      - ./dropzone:/opt/dropzone
+      - ./glue:/opt/glue
+      - ./veripy:/opt/config
+    entrypoint: /opt/glue/entrypoint
+    # Allow intercation with PDB
+    environment:
+      - WORKDIR=/opt/glue
+    stdin_open: true
+    tty: true
+
+  pdfs:
+    build:
+      context: https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/pdf-microservice.git
+      dockerfile: Dockerfile-production
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./dropzone:/opt/dropzone
+      - ./pdfs:/opt/config
+
+  sftp:
+    image: atmoz/sftp
+    volumes:
+        - ./dropzone:/home/test_user/upload
+        - ./sftp:/etc/sftp:ro
+    ports:
+        - "2222:22"

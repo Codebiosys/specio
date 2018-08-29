@@ -1,0 +1,14 @@
+{
+  "organization": { "name": "A test organization" },
+  "features": [
+    {
+      "name": "Test that the schema is valid.",
+      "scenarios": [
+        {
+              "name": "Test that the schema is valid.",
+              "steps": []
+        }
+      ]
+    }
+  ]
+}
