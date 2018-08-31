@@ -1,0 +1,15 @@
+{
+  "environment": {
+    "browser_name": "Opera",
+    "browser_version": "v1.11",
+    "os_name": "CentOS",
+    "os_version": "trusty",
+    "specio_version": "v0.1"
+  },
+  "organization": {
+    "name": "Test organization",
+    "test_purpose_format": "The purpose of this test is to ensure that the following scenarios pass {scenarios}."
+  },
+  "run_date": 1535570990,
+  "specio_operator": "A Ghost"
+}

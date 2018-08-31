@@ -1,8 +1,9 @@
 import json
 
 from veripy2specio.configuration import Configuration
-from veripy2specio.schemas import validate, INPUT_SCHEMA, OUTPUT_SCHEMA
+from veripy2specio.schemas import validate, INPUT_SCHEMA, OUTPUT_SCHEMA, CONFIG_SCHEMA
 from veripy2specio.transforms import Veripy2SpecioTransform
+
 
 
 def load_input(config):
@@ -27,6 +28,10 @@ def main():
         # Don't do any transformation, just validate.
         input = json.load(config.input)
         validate(input, OUTPUT_SCHEMA)
+    elif config.verify_config:
+        # Don't do any transformation, just validate.
+        input = json.load(config.input)
+        validate(input, CONFIG_SCHEMA)
     else:
         # Convert the file.
         input = load_input(config)
