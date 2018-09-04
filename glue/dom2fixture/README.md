@@ -25,10 +25,10 @@ pip install -r requirements.txt
 
 ## Running the Tests
 
-TODO: No tests. But when there are, you'll use the following command to run them.
+To run the tests, ensure you've installed the dependencies and run:
 
 ```bash
-PYTHONPATH=. py.test
+pytest
 ```
 
 
