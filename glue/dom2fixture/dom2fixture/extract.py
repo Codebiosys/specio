@@ -20,9 +20,28 @@ the following format:
 
 """
 extractors = (
+    # Page Elements
+
+    ('//title', formatters.format_page_title),
+
+    # Interactive Elements
+
     ('//a', formatters.format_link),
     ('//button', formatters.format_button),
-    ('//title', formatters.format_page_title),
+    ('//input', formatters.format_input),
+
+    # Headers
+
+    ('//h1', formatters.format_header),
+    ('//h2', formatters.format_header),
+    ('//h3', formatters.format_header),
+    ('//h4', formatters.format_header),
+    ('//h5', formatters.format_header),
+    ('//h6', formatters.format_header),
+
+    # Media
+
+    ('//img', formatters.format_image),
 )
 
 

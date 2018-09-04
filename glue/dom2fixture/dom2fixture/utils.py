@@ -18,18 +18,19 @@ def get_element_title(element, suffix=None):
     possible_attrs = (
         'title',
         'aria-label',
+        'alt',
     )
 
-    possible_title = element.text_content().strip()
+    possible_title = get_jsonable_key(element.text_content())
     if possible_title:
         return f'{possible_title} {suffix}'
 
     # The element has no text, so let's try other approaches.
     for attr in possible_attrs:
-        possible_title = element.get(attr, '').strip()
+        possible_title = get_jsonable_key(element.get(attr, ''))
         if possible_title:
             return f'{possible_title} {suffix}'
 
 
     # Nothing was found.
-    return 'UNKNOWN'
+    return f'Unknown {suffix}'

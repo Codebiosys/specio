@@ -14,6 +14,12 @@ FIXTURE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), 'fixtures
         'input': 'google-search-results.html',
         'output': 'google-search-results.json',
     },
+    {
+        'url': 'https://pine.blog',
+        'verbose': True,
+        'input': 'pine.blog.html',
+        'output': 'pine.blog.json',
+    },
 ])
 def valid_configuration(request):
     class MockConfig(object):
