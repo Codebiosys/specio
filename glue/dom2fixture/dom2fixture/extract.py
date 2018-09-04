@@ -32,7 +32,7 @@ extractors = (
 def extract(html, config):
     tree = etree.ElementTree(lxml.html.fromstring(html))
     return {
-        'url': '',
+        'url': config.url,
         'elements': {
             item_name: formatted_item
             for path, formatter in extractors

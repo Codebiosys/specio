@@ -22,6 +22,11 @@ class Configuration():
          dict(type=argparse.FileType('r'),
               help='The location of the input file. (Defaults to stdin)',
               default=sys.stdin)),
+
+        (('--url',),
+         dict(type=str,
+              help='The URL of the given DOM. This will be included in the fixture.',
+              default='')),
     )
 
     def __init__(self):
