@@ -64,3 +64,16 @@ extractors = (
 ```
 
 2. Add a formatter for the new extracted type. In some cases you can use a formatter that already exists. Check in `formatters` for one that might fit your needs. If not, add yours there.
+
+
+## Viewing the Results on the Command Line
+
+You can easily view the results of the conversion in the terminal by using[jq](https://stedolan.github.io/jq/). Using the command from before, with JQ it becomes:
+
+```bash
+pbpaste | PYTHONPATH=. python -m dom2fixture | jq
+```
+
+The results should look something like this:
+
+![](static/jq.png)
