@@ -59,17 +59,23 @@ def format_input(element, config, extractor, tree):
 
         if not possible_title:
             # Try using the input's given label using for="".
-            names = (e.get('name'), e.get('id'), *e.get('class', '').split())
-            for name in names:
-                if name:
-                    associated_label = tree.find(f'//label[@for="{name}"]')
-                    if associated_label is not None:
-                        possible_title = get_element_title(
-                            associated_label,
-                            suffix='Field',
-                            no_default=True
-                        )
-                        break
+            associated_labels = (
+                tree.find(f'//label[@for="{name}"]')
+                for name in (
+                    e.get('name'),
+                    e.get('id'),
+                    *e.get('class', '').split(),
+                )
+                if name
+            )
+            for associated_label in associated_labels:
+                if associated_label is not None:
+                    possible_title = get_element_title(
+                        associated_label,
+                        suffix='Field',
+                        no_default=True
+                    )
+                    break
 
         if not possible_title:
             possible_title = f'Unknown Field {id}'
