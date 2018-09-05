@@ -9,4 +9,4 @@ def main():
 
     input = config.input.read()
     output = extract(input, config)
-    config.output.write(json.dumps(output))
+    config.output.write(json.dumps(output, indent='\t'))
