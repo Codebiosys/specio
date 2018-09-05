@@ -1,3 +1,5 @@
+import uuid
+
 from .xpath import get_shortest_xpath
 from .utils import get_element_title
 
@@ -43,9 +45,36 @@ def format_button(element, config, extractor, tree):
 
 def format_input(element, config, extractor, tree):
     """ Formats elements that are inputs. """
-    for e in element:
-        title = get_element_title(e, suffix='Field')
-        yield title, {
+    for id, e in enumerate(element):
+        # Try getting the normal names.
+        possible_title = get_element_title(e, suffix='Field', no_default=True)
+
+        if not possible_title:
+            # Try using the nearest parent.
+            possible_title = get_element_title(
+                e.getparent(),
+                suffix='Field',
+                no_default=True
+            )
+
+        if not possible_title:
+            # Try using the input's given label using for="".
+            names = (e.get('name'), e.get('id'), *e.get('class', '').split())
+            for name in names:
+                if name:
+                    associated_label = tree.find(f'//label[@for="{name}"]')
+                    if associated_label is not None:
+                        possible_title = get_element_title(
+                            associated_label,
+                            suffix='Field',
+                            no_default=True
+                        )
+                        break
+
+        if not possible_title:
+            possible_title = f'Unknown Field {id}'
+
+        yield possible_title, {
             'selector': get_shortest_xpath(tree, e),
             'by': 'xpath',
         }

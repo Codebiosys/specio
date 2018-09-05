@@ -6,7 +6,7 @@ def get_jsonable_key(string):
     return titlecase(string.lower().strip())
 
 
-def get_element_title(element, suffix=None):
+def get_element_title(element, suffix=None, no_default=False):
     """ Return a human-friendly name for the element with the given suffix.
 
     Example
@@ -19,6 +19,7 @@ def get_element_title(element, suffix=None):
         'title',
         'aria-label',
         'alt',
+        'name',
     )
 
     possible_title = get_jsonable_key(element.text_content())
@@ -32,5 +33,7 @@ def get_element_title(element, suffix=None):
             return f'{possible_title} {suffix}'
 
 
-    # Nothing was found.
+    # Nothing was found
+    if no_default:
+        return None
     return f'Unknown {suffix}'
