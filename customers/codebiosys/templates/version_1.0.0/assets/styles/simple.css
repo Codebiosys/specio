@@ -1,0 +1,113 @@
+@media print {
+  body {
+	counter-reset: chapternum figurenum;
+	font-family: Georgia, "Times New Roman", Times,, serif;
+	line-height: 1;
+	font-size: 12pt;
+  margin: 0;
+}
+
+h1,h2,h3,h4,h5 {
+	font-weight: bold;
+	page-break-after: avoid;
+	page-break-inside: avoid;
+}
+
+h1+p, h2+p, h3+p {
+	page-break-before: avoid;
+}
+
+table, figure, .panel {
+	page-break-inside: avoid;
+}
+
+thead {display: table-header-group;}
+tfoot {display: table-header-group;}
+
+div#pageHeader {
+  position: fixed;
+  height: 1in;
+  margin-top: -1in;
+}
+
+@page {
+  margin: 0.5in 0.5in 0.5in 0.5in;
+  orphans: 4;
+  widows: 3;
+  @bottom-center {
+    margin: 10pt 0 30pt 0;
+    font-size: 9pt;
+    color: #333;
+  }
+  @bottom-right {
+    margin: 10pt 0 30pt 0;
+    content: "Page " counter(page) " of " counter(pages);
+    font-size: 9pt;
+    color: #333;
+   }
+  }
+}
+
+img {
+  max-width: 9in;
+  margin: 0.25in;
+}
+
+/*
+h1, h2, h3, h4, p {
+    margin: 0;
+    padding: 0;
+}
+
+.highlight {
+    font-weight: bold;
+}
+
+.failed {
+    color: darkred;
+    font-weight: bold;
+}
+
+.step-error-message {
+    color: darkred;
+    margin: 0 0 0 10px;
+}
+
+.passed {
+    color: green;
+}
+
+.skipped {
+    color: #999;
+}
+
+.step {
+    margin: 4px 0;
+}
+
+.step .text {
+    border-radius: 3px;
+    display: block;
+}
+
+.step .screenshot {
+    border: solid 1px #CCC;
+    height: 100%;
+    width: 100%;
+}
+
+.step-screenshot-wrap {
+    margin-left: 10px;
+}
+
+.container {
+    background: #f8f8f8;
+    border-radius: 5px;
+    border: 1px solid #e8e8e8;
+    padding: 10px;
+    margin: 10px;
+}
+
+#danger {
+    background-color: #f66666;
+} */

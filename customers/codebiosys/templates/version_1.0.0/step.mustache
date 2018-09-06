@@ -1,0 +1,53 @@
+<tr>
+  <td>
+  </td>
+  <td>
+    <ul>
+      {{ #given_when }}
+        <li><strong>{{ keyword }}</strong> {{ name }} <sub>[{{ line }}]</sub></li>
+      {{ /given_when }}
+    </ul>
+  </td>
+    <td>
+      <ul>
+        {{ #then }}
+          <li><strong>{{ keyword }}</strong> {{ name }} <sub>[{{ line }}]</sub>
+            {{ #passed }}
+              &nbsp;<span style="color:green">&#10003;</span>
+             {{ /passed }}
+          </li>
+        {{ /then }}
+      </ul>
+  </td>
+  <td>
+  </td>
+  <td>
+    {{ #given_when }}
+      {{ #result.error_message }}
+          <strong> Error [{{ line }}]</strong>: <pre class="step-error-message" id="danger">{{ result.error_message }}</pre>
+      {{ /result.error_message }}
+    {{ /given_when }}
+    {{ #then }}
+      {{ #stored_value }}
+        <strong>Value [{{ line }}]</strong>: {{ stored_value }}
+      {{ /stored_value }}
+    {{ /then }}
+    {{ #then }}
+      {{ #result.error_message }}
+        <strong> Error [{{ line }}]</strong>: <pre class="step-error-message" id="danger">{{ result.error_message }}</pre>
+      {{ /result.error_message }}
+    {{ /then }}
+  </td>
+</tr>
+{{ #then }}
+  {{ #attachments }}
+    <tr>
+      <td>
+      </td>
+      <td colspan="4">
+        <strong>Line: [{{ line }}]</strong><br />
+        <img style="width: 6in; border: solid blue 1px" src="data:{{ media.type }};base64, {{data}}" />
+      </td>
+    </tr>
+  {{ /attachments }}
+{{ /then }}

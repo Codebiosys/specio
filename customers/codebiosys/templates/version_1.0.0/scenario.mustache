@@ -1,0 +1,30 @@
+<tr style="background-color: #ddd">
+  <td>
+    {{ number }}
+  </td>
+  <td colspan=2 >
+    <strong>{{ keyword }}</strong> - {{ name }}<br />
+    <p><strong>Functional Requirements</strong>:
+
+    {{ #tags }}
+      {{ name }},
+    {{ /tags }}
+    {{ ^tags }}
+      No Requirement Specified
+    {{ /tags }}
+  </p>
+  </td>
+  <td>
+    {{ #all_passed }}
+      <strong style="color: green">Passed</strong>
+    {{ /all_passed }}
+    {{ ^all_passed }}
+      <strong>Failed</strong>
+    {{ /all_passed }}
+  </td>
+  <td>
+  </td>
+</tr>
+{{ #steps }}
+{{> step }}
+{{ /steps }}

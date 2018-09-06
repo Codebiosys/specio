@@ -1,0 +1,38 @@
+<h1> {{ name }} </h1>
+{{{ description }}}
+<div> {{ status }} </div>
+  <p><strong>Functional Requirements</strong>:
+
+  {{ #scenario_tags }}
+{{ . }},
+  {{ /scenario_tags }}
+</p>
+<div>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>
+          Step
+        </th>
+        <th>
+          Plan
+        </th>
+        <th>
+          Result
+        </th>
+        <th>
+          Pass/Fail
+        </th>
+        <th>
+          Reference
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ #scenarios }}
+        {{> scenario }}
+      {{ /scenarios }}
+    </tbody>
+  </table>
+
+</div>
