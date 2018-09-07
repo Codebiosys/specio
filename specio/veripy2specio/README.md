@@ -11,7 +11,7 @@ Veripy2Specio includes a few options to validate a given JSON file against eithe
 At any time, run the following command to get help.
 
 ```bash
-PYTHONPATH=. python -m veripy2specio --help
+python -m veripy2specio --help
 ```
 
 ## Installing Veripy2Specio
@@ -19,15 +19,21 @@ PYTHONPATH=. python -m veripy2specio --help
 Currently Veripy2Specio is not installed anywhere by default. To use Veripy2Specio locally, simply ensure that you have a valid virtual environment for Python 3.6 or later, and install the requirements with the following command.
 
 ```bash
-cd glue/veripy2specio
-pip install -r requirements.txt
+
+git clone git@github.com/Codebiosis/specio_app.git
+
+# Production
+pip install ./specio_app/glue/veripy2specio
+
+# Development (allows changes to the python files)
+pip install -e ./specio_app/glue/veripy2specio
 ```
 
 
 ## Running the Tests
 
 ```bash
-PYTHONPATH=. py.test
+py.test
 ```
 
 
@@ -36,7 +42,7 @@ PYTHONPATH=. py.test
 To convert a Veripy output file into a Specio report document, simply run the following command.
 
 ```bash
-PYTHONPATH=. python -m veripy2specio -o <destination> <input>
+python -m veripy2specio -o <destination> <input>
 ```
 
 
@@ -50,8 +56,8 @@ Veripy2Specio includes utility options that do not perform the actual conversion
 
 ```bash
 # Validate that a given file is a valid VeriPy output file.
-PYTHONPATH=. python -m veripy2specio --verify-veripy <input>
+python -m veripy2specio --verify-veripy <input>
 
 # Validate that a given file is a valid Specio File
-PYTHONPATH=. python -m veripy2specio --verify-specio <input>
+python -m veripy2specio --verify-specio <input>
 ```

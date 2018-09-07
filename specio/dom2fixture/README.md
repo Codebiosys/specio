@@ -9,7 +9,7 @@ Dom2Fixture is a python module that extracts the important information about a p
 At any time, run the following command to get help.
 
 ```bash
-PYTHONPATH=. python -m dom2fixture --help
+python -m dom2fixture --help
 ```
 
 
@@ -18,8 +18,13 @@ PYTHONPATH=. python -m dom2fixture --help
 Currently Dom2Fixture is not installed anywhere by default. To use Dom2Fixture locally, simply ensure that you have a valid virtual environment for Python 3.6 or later, and install the requirements with the following command.
 
 ```bash
-cd glue/dom2fixture
-pip install -r requirements.txt
+git clone git@github.com/Codebiosis/specio_app.git
+
+# Production
+pip install ./specio_app/glue/dom2fixture
+
+# Development (allows changes to the python files)
+pip install -e ./specio_app/glue/dom2fixture
 ```
 
 
@@ -42,7 +47,7 @@ pytest
 3. (On macOS) run the following command to send the DOM through the converter.
 
 ```bash
-pbpaste | PYTHONPATH=. python -m dom2fixture -o <destination>
+pbpaste | python -m dom2fixture -o <destination>
 ```
 
 > On Linux or Windows, you'll have to save the data to a file and then run it though.
@@ -71,7 +76,7 @@ extractors = (
 You can easily view the results of the conversion in the terminal by using[jq](https://stedolan.github.io/jq/). Using the command from before, with JQ it becomes:
 
 ```bash
-pbpaste | PYTHONPATH=. python -m dom2fixture | jq
+pbpaste | python -m dom2fixture | jq
 ```
 
 The results should look something like this:

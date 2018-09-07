@@ -1,7 +1,0 @@
-# JSON Schema Validation
-
-jsonschema==2.6.0
-
-# Formatting
-
-markdown2==2.3.5
