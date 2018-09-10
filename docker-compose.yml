@@ -1,20 +1,21 @@
-version: "3"
+version: "3.7"
 
 services:
 
-  veripy:
-    build: https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/veri-py.git
+  specio:
+    build:
+      context: ./specio
+      target: development
     restart: always
     depends_on:
       - pdfs
     volumes:
       - ./dropzone:/opt/dropzone
-      - ./glue:/opt/glue
-      - ./veripy:/opt/config
-    entrypoint: /opt/glue/entrypoint
+      - ./specio:/opt/specio
+    entrypoint: /opt/specio/entrypoint
     # Allow intercation with PDB
-    environment:
-      - WORKDIR=/opt/glue
+    # environment:
+    #   - WORKDIR=/opt/specio
     stdin_open: true
     tty: true
 

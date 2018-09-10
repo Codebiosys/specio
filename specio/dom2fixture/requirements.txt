@@ -1,6 +1,2 @@
 lxml==4.2.4
 titlecase==0.12.0
-
-# Testing
-
-pytest==3.7.3
