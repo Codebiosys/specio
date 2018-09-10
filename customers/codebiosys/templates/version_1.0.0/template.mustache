@@ -7,7 +7,6 @@
     <link rel="stylesheet" type="text/css" href="./assets/styles/footer.css" />
     <link rel="stylesheet" type="text/css" href="./assets/styles/appconfig.css" />
     <link rel="stylesheet" type="text/css" href="./assets/styles/scenario_steps.css" />
-
     <meta charset="UTF-8">
   </head>
   <body>
@@ -20,7 +19,7 @@
       <div class="grid-item"><strong>Application Version</strong>:  {{ application.version }}</div>
       <div class="grid-item"><strong>Browser &amp; Version</strong>: {{ config.browser.name }} {{ config.browser.version }}</div>
       <div class="grid-item"><strong>OS &amp; Version</strong>: {{ config.os.name }} {{ config.os.version }}</div>
-      <div class="grid-item"><strong>Test User</strong>:</div>
+      <div class="grid-item"><strong>Test User</strong>: {{ specio.system_user }}</div>
     </div>
     <br />
     <div class="feature-container">
