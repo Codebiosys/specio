@@ -1,15 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Cucumber Feature Report</title>
-    <link rel="stylesheet" type="text/css" href="./assets/styles/simple.css" />
-    <link rel="stylesheet" type="text/css" href="./assets/styles/bootstrap.css" />
+    <title>{{ organization.name }}</title>
+    <link rel="stylesheet" type="text/css" href="./assets/styles/base.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/styles/header.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/styles/footer.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/styles/appconfig.css" />
+    <link rel="stylesheet" type="text/css" href="./assets/styles/scenario_steps.css" />
+
     <meta charset="UTF-8">
   </head>
   <body>
-    <div class="container">
+    <div class="header-container">
+      {{> header }}
+    </div>
+    <h2>Application Configuration</h2>
+     <div class="grid-container">
+      <div class="grid-item"><strong>Application</strong>: {{ application.name }}</div>
+      <div class="grid-item"><strong>Application Version</strong>:  {{ application.version }}</div>
+      <div class="grid-item"><strong>Browser &amp; Version</strong>: {{ config.browser.name }} {{ config.browser.version }}</div>
+      <div class="grid-item"><strong>OS &amp; Version</strong>: {{ config.os.name }} {{ config.os.version }}</div>
+      <div class="grid-item"><strong>Test User</strong>:</div>
+    </div>
+    <br />
+    <div class="feature-container">
       {{ #features }}
-      {{> feature }}
+        {{> feature }}
       {{ /features }}
     </div>
   </body>

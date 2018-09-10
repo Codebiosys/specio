@@ -1,0 +1,64 @@
+/* * {
+  border: solid red 1px;
+} */
+
+body {
+counter-reset: chapternum figurenum;
+font-family: Georgia, "Times New Roman", Times, serif;
+color: #000;
+background: #fff;
+width: 100%;
+/* margin: 0;
+padding: 0; */
+font-size: 10pt;
+line-height: 14pt;
+}
+
+body #container {
+  margin: 2in 1.2in .5in 1.2in;
+}
+
+h1,h2,h3,h4,h5 {
+	font-weight: bold;
+	page-break-after: avoid;
+	page-break-inside: avoid;
+  break-after: avoid-page;
+}
+
+h1+p, h2+p, h3+p {
+	page-break-before: avoid;
+}
+
+table, figure, .panel, ul, img {
+	page-break-inside: avoid;
+}
+
+thead {display: table-header-group;}
+tfoot {display: table-header-group;}
+
+img {
+   max-width: 100% !important;
+}
+
+@media print and (color) {
+   * {
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+   }
+}
+
+@page {
+  size: letter portrait;
+  margin-top: 2in;
+  margin-bottom: 1in;
+  orphans: 4;
+  widows: 3;
+}
+
+@page :blank {
+  @top-center {
+    content: "This page is intentionally left blank.";
+    font-size: 28pt;
+    font-weight: bold;
+  }
+}

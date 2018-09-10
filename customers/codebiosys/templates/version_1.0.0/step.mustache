@@ -2,21 +2,20 @@
   <td>
   </td>
   <td>
-    <ul>
+    <dl>
       {{ #given_when }}
-        <li><strong>{{ keyword }}</strong> {{ name }} <sub>[{{ line }}]</sub></li>
+      <dt>{{ keyword }}</dt>
+      <dd>{{ name }}{{ #result.error_message }}&nbsp;<sub>[{{ line }}]</sub>{{ /result.error_message }}
+      </dd>
       {{ /given_when }}
-    </ul>
+    </dl>
   </td>
     <td>
       <ul>
-        {{ #then }}
-          <li><strong>{{ keyword }}</strong> {{ name }} <sub>[{{ line }}]</sub>
-            {{ #passed }}
-              &nbsp;<span style="color:green">&#10003;</span>
-             {{ /passed }}
-          </li>
-        {{ /then }}
+          {{ #then }}
+            <li class="{{ result.status }}"><strong>{{ keyword }}</strong> {{ name }}{{ #result.error_message }}<sub>[{{ line }}]</sub>{{ /result.error_message }}{{ #stored_value }}<sub>[{{ line }}]</sub>{{ /stored_value }}{{ #attachments }}<sub>[{{ line }}]</sub>{{ /attachments }}
+            </li>
+          {{ /then }}
       </ul>
   </td>
   <td>
@@ -28,14 +27,24 @@
       {{ /result.error_message }}
     {{ /given_when }}
     {{ #then }}
+      <dl>
+      {{ #attachments }}
+        <dt>Figure [{{ line }}]</dt>
+      {{ /attachments }}
       {{ #stored_value }}
-        <strong>Value [{{ line }}]</strong>: {{ stored_value }}
+      <dt>Value [{{ line }}]</dt>
+      <dd>
+         {{ stored_value }}
+      </dd>
       {{ /stored_value }}
-    {{ /then }}
-    {{ #then }}
       {{ #result.error_message }}
-        <strong> Error [{{ line }}]</strong>: <pre class="step-error-message" id="danger">{{ result.error_message }}</pre>
+        <dt>Error [{{ line }}]
+        </dt>
+        <dd>
+           <pre class="step-error-message">{{ result.error_message }}</pre>
+        </dd>
       {{ /result.error_message }}
+      </dl>
     {{ /then }}
   </td>
 </tr>
@@ -45,8 +54,10 @@
       <td>
       </td>
       <td colspan="4">
-        <strong>Line: [{{ line }}]</strong><br />
-        <img style="width: 6in; border: solid blue 1px" src="data:{{ media.type }};base64, {{data}}" />
+        <figcaption><strong>Reference ID: [{{ line }}]</figcaption></strong>
+        <figure>
+        <img class="screencapture" src="data:{{ media.type }};base64, {{data}}" />
+      </figure>
       </td>
     </tr>
   {{ /attachments }}

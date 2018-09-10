@@ -1,25 +1,27 @@
-<tr style="background-color: #ddd">
-  <td>
+<tr class="scenario-summary">
+  <td class="step-number">
     {{ number }}
   </td>
   <td colspan=2 >
-    <strong>{{ keyword }}</strong> - {{ name }}<br />
-    <p><strong>Functional Requirements</strong>:
-
-    {{ #tags }}
-      {{ name }},
-    {{ /tags }}
-    {{ ^tags }}
-      No Requirement Specified
-    {{ /tags }}
-  </p>
+    <dl>
+      <dt>{{ keyword }}</dt>
+      <dd>{{ name }}</dd>
+      <dt>Functional Requirements</dt>
+        <dd>
+        {{ #tags }}
+          {{ name }},
+        {{ /tags }}
+        {{ ^tags }}
+          No Requirement Specified
+        {{ /tags }}
+      </dd>
   </td>
-  <td>
+  <td class="pass-fail">
     {{ #all_passed }}
-      <strong style="color: green">Passed</strong>
+      <strong class="passed">Passed</strong>
     {{ /all_passed }}
     {{ ^all_passed }}
-      <strong>Failed</strong>
+      <strong class="failed">Failed</strong>
     {{ /all_passed }}
   </td>
   <td>

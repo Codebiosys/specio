@@ -1,14 +1,41 @@
-<h1> {{ name }} </h1>
+<h2> {{ name }} <div class="result {{status}}">{{status}}</div> </h2>
 {{{ description }}}
-<div> {{ status }} </div>
-  <p><strong>Functional Requirements</strong>:
-
-  {{ #scenario_tags }}
-{{ . }},
-  {{ /scenario_tags }}
-</p>
-<div>
-  <table class="table table-bordered">
+<dl>
+  <dt>Test Purpose
+  </dt>
+  <dd>
+    {{ #test.purpose }}
+      {{ test.purpose }}
+    {{ /test.purpose }}
+    {{ ^test.purpose }}
+      The purpose of this test is to verify functional requirement(s)
+      {{ #scenario_tags }}
+        <em>{{ . }}</em>,
+      {{ /scenario_tags }}
+    {{ /test.purpose }}
+  </dd>
+  <dt>Test Method
+  </dt>
+  <dd> {{ test.method }}
+  </dd>
+  <dt>Test Acceptance Criteria
+  </dt>
+  <dd>{{ test.acceptance_criteria }}
+  </dd>
+  <dt>Prerequisites
+  </dt>
+  <dd>
+    <ul>
+      <li>
+        Prerequisite 1
+      </li>
+      <li>
+        Prerequisite 2
+      </li>
+    </ul>
+  </dd>
+</dl>
+  <table class="scenarios">
     <thead>
       <tr>
         <th>
@@ -34,5 +61,3 @@
       {{ /scenarios }}
     </tbody>
   </table>
-
-</div>
