@@ -1,0 +1,77 @@
+table.scenarios {
+  border: solid 1pt #333;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+table.scenarios tr > * {
+  border: solid 1pt #333;
+  padding: 0.25em 0.5em;
+}
+
+table.scenarios td  {
+  vertical-align: top;
+}
+
+td.step-number {
+  text-align: center;
+  font-size: 10pt;
+}
+
+td.pass-fail {
+  text-align: center;
+  font-size: 11pt;
+}
+
+.passed, .Passed {
+  color: green;
+}
+
+.failed, .Failed {
+  color: red;
+}
+
+table.scenarios dl {
+  margin: 0pt;
+  padding: 0pt;
+}
+
+table.scenarios dd {
+  margin: 0em;
+  margin-left: 1em;
+  padding: 0em;
+  padding-left: 1em;
+}
+
+tr.scenario-summary {
+background-color: #eee;
+}
+
+table.scenarios ul {
+  list-style: none;
+  padding: 0pt;
+}
+
+table.scenarios ul li {
+  color: inherit;
+}
+
+table.scenarios ul li.passed::before {
+  content: '✓';
+  color: green;
+  font-size: 11pt;
+}
+
+table.scenarios sub {
+  font-size: 8pt;
+  color: blue;
+}
+
+.screencapture {
+  width: 6in;
+  border: solid blue 1pt;
+}
+
+.result {
+  text-transform: capitalize;
+}

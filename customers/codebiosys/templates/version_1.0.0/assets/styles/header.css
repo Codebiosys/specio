@@ -1,0 +1,36 @@
+header {
+ position: fixed;
+ width: 100%;
+ margin-top: -1.5in;
+ height: 1in;
+}
+
+header > table {
+  width: 100%;
+  border: solid 1pt #333;
+  border-collapse: collapse;
+  font-size: 9pt;
+}
+
+header > table td {
+  border: solid 1pt #333;
+}
+
+header > table td img {
+  max-width: 2in !important;
+  margin: 0pt;
+}
+
+header > table td {
+  text-align: center;
+  padding-left: 1.2em;
+  padding-right: 1.2em;
+  width: 33%;
+}
+
+header > table td:first-child {
+  text-align: left;
+}
+header > table td:last-child {
+  text-align: right;
+}

@@ -1,0 +1,63 @@
+<h2> {{ name }} <div class="result {{status}}">{{status}}</div> </h2>
+{{{ description }}}
+<dl>
+  <dt>Test Purpose
+  </dt>
+  <dd>
+    {{ #test.purpose }}
+      {{ test.purpose }}
+    {{ /test.purpose }}
+    {{ ^test.purpose }}
+      The purpose of this test is to verify functional requirement(s)
+      {{ #scenario_tags }}
+        <em>{{ . }}</em>,
+      {{ /scenario_tags }}
+    {{ /test.purpose }}
+  </dd>
+  <dt>Test Method
+  </dt>
+  <dd> {{ test.method }}
+  </dd>
+  <dt>Test Acceptance Criteria
+  </dt>
+  <dd>{{ test.acceptance_criteria }}
+  </dd>
+  <dt>Prerequisites
+  </dt>
+  <dd>
+    <ul>
+      <li>
+        Prerequisite 1
+      </li>
+      <li>
+        Prerequisite 2
+      </li>
+    </ul>
+  </dd>
+</dl>
+  <table class="scenarios">
+    <thead>
+      <tr>
+        <th>
+          Step
+        </th>
+        <th>
+          Plan
+        </th>
+        <th>
+          Result
+        </th>
+        <th>
+          Pass/Fail
+        </th>
+        <th>
+          Reference
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {{ #scenarios }}
+        {{> scenario }}
+      {{ /scenarios }}
+    </tbody>
+  </table>
