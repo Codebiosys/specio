@@ -1,0 +1,5 @@
+#! /usr/bin/env python
+
+from dom2fixture import app
+
+app.main()

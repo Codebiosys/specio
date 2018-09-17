@@ -35,6 +35,6 @@ def main():
     else:
         # Convert the file.
         input = load_input(config)
-        transform = Veripy2SpecioTransform(config)
+        transform = Veripy2SpecioTransform()
         output = transform(input)
         dump_output(output, config)

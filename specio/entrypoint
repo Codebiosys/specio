@@ -1,12 +1,16 @@
 #! /usr/bin/env python3
 
 from contextlib import contextmanager
-from time import sleep
 import os
 import os.path
 
+from run.forrest import run
+from run.forrest.celery import app
 
-PIDFILE = '/tmp/watchmen.pid'
+
+PIDFILE = 'gump.pid'
+WORKER_MODE = 'worker'
+RUN_MODE = os.environ['RUN_MODE'].lower()
 
 
 @contextmanager
@@ -17,25 +21,21 @@ def lock():
   """
   if os.path.exists(PIDFILE):
     raise Exception('There\'s already a running instance.\nTerminating...')
+
+  with open(PIDFILE, 'w') as f:
+    f.write('.')
+
   try:
     yield None
-  except:  # flake8: noqa
-    # Catch everything, even keyboard errors.
-    pass
   finally:
     os.remove(PIDFILE)
 
 
-def main():
-  while True:
-    # TODO: Scan dirs and run commands.
-    print('Ping.')
-    print(
-      '\n'.join(os.listdir('/opt/dropzone'))
-    )
-    sleep(10)
-
-
 if __name__ == '__main__':
   with lock():
-    main()
+    if RUN_MODE == WORKER_MODE:
+      print('Starting Worker')
+      app.worker_main()
+    else:
+      print('Initializing Specio')
+      run.main()

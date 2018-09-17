@@ -7,7 +7,7 @@
 # to allow the management of jobs to process.
 #
 
-FROM python:3.7 AS base
+FROM python:3.6 AS base
 
 # Install VeriPy dependencies first to cache them away
 RUN mkdir /install && \
@@ -15,11 +15,15 @@ RUN mkdir /install && \
     git clone https://github.com/Codebiosys/veripy.git && \
     pip install -r ./veripy/requirements.txt
 
+# Install PyDF
+RUN cd /install && \
+    git clone https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/pydf.git && \
+    pip install ./pydf
+
 # Setup filesytem to what VeriPy expects
 # All module directories will be at /app/veripy/*
 WORKDIR /app
 RUN mv /install/veripy/veripy .
-
 
 #
 # Development multi-stage target
@@ -37,12 +41,15 @@ RUN pip install -r /install/veripy/requirements-development.txt
 # for development).
 COPY ./dom2fixture/requirements* /install/dom2fixture/
 COPY ./veripy2specio/requirements* /install/veripy2specio/
+COPY ./run/requirements* /install/run/
 RUN pip install -r /install/dom2fixture/requirements-development.txt && \
-    pip install -r /install/veripy2specio/requirements-development.txt
+    pip install -r /install/veripy2specio/requirements-development.txt && \
+    pip install -r /install/run/requirements-development.txt
 
 COPY . /install/
 RUN pip install -e /install/dom2fixture && \
-    pip install -e /install/veripy2specio
+    pip install -e /install/veripy2specio && \
+    pip install -e /install/run
 
 COPY entrypoint .
 CMD ["entrypoint"]
@@ -56,7 +63,8 @@ FROM base AS production
 # Copy and install immediately, there won't be file changes in production
 COPY . /install/
 RUN pip install /install/dom2fixture && \
-    pip install /install/veripy2specio
+    pip install /install/veripy2specio && \
+    pip install /install/run
 
 COPY entrypoint .
 CMD ["entrypoint"]

@@ -9,15 +9,43 @@ services:
     restart: always
     depends_on:
       - pdfs
+      - queue
+    links:
+      - queue
+    entrypoint: /install/entrypoint
     volumes:
       - ./dropzone:/opt/dropzone
-      - ./specio:/opt/specio
-    entrypoint: /opt/specio/entrypoint
+      - ./customers:/opt/customers
+    environment:
+      - RUN_MODE=head
     # Allow intercation with PDB
     # environment:
     #   - WORKDIR=/opt/specio
     stdin_open: true
     tty: true
+
+  worker:
+    build:
+      context: ./specio
+      target: development
+    restart: always
+    depends_on:
+      - pdfs
+      - queue
+      - selenium_hub
+    links:
+      - queue
+      - selenium_hub:selenium_hub
+    volumes:
+      - ./dropzone:/opt/dropzone
+      - ./customers:/opt/customers
+    entrypoint: /install/entrypoint
+    environment:
+      - RUN_MODE=worker
+      - BROWSER=remote
+      - SELENIUM_URL=http://selenium_hub:4444/wd/hub
+      - ENVIRONMENT=dev
+      - PYTHONPATH=/app/veripy
 
   pdfs:
     build:
@@ -37,3 +65,31 @@ services:
         - ./sftp:/etc/sftp:ro
     ports:
         - "2222:22"
+
+  queue:
+    image: redis
+
+  flower:
+    image: mher/flower
+    links:
+      - queue
+    ports:
+        - "5555:5555"
+    environment:
+      - FLOWER_BROKER_API=redis://queue
+
+  #
+  # Browser virtualization integration testing
+  #
+  selenium_hub:
+    image: selenium/standalone-chrome-debug
+    privileged: true
+    ports:
+      - "4444:4444"
+      - "5900:5900"
+    volumes:
+      - "uploads:/uploads"
+
+volumes:
+  uploads:
+

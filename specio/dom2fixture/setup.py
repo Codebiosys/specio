@@ -48,4 +48,5 @@ setup(
     install_requires=REQUIREMENTS,
     extras_require={'develop': DEVELOPMENT},
     tests_require=DEVELOPMENT,
+    scripts=('bin/dom2fixture',),
 )

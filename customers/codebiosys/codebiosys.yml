@@ -1,0 +1,6 @@
+# This is a sample configuration.
+# Drag me into the ./dropzone to watch me go!
+
+features: /app/veripy/features
+output: /opt/customers/codebiosys/pdfs/version_1.0.0_report.pdf
+template: /opt/customers/codebiosys/templates/version_1.0.0/template.mustache

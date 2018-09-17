@@ -26,12 +26,12 @@ DEVELOPMENT = list(packages(os.path.join(HERE, 'requirements-development.txt')))
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='veripy2specio',
+    name='run',
     version='0.1.0',
     packages=find_packages(),
     include_package_data=True,
     license='MIT License',
-    description='A command line tool for converting Cucumber.json to Specio.json',
+    description='A runner... it runs.',
     long_description=README,
     url='https://github.com/Codebiosys/specio_app',
     author='CodeBiosys, Inc',
@@ -48,5 +48,4 @@ setup(
     install_requires=REQUIREMENTS,
     extras_require={'develop': DEVELOPMENT},
     tests_require=DEVELOPMENT,
-    scripts=('bin/veripy2specio',),
 )
