@@ -1,9 +1,13 @@
 from base64 import b64decode
 from datetime import datetime
+import logging
 import os, os.path
 import yaml
 
 from run.forrest.celery import app
+
+
+logger = logging.getLogger(__name__)
 
 
 class FailedToAcquireLock(Exception):
@@ -32,6 +36,7 @@ class FailedToReleaseLock(Exception):
 @app.task
 def acquire_lock(configdict, inputfilepath):
     """ Attempt to acquire the lock on the input file. """
+    logger.info(f'Attempting to acquire lock for file: {inputfilepath}')
     lockfile = f'{inputfilepath}.lock'
 
     # Ensure that we haven't attempted to run an already running file.
@@ -48,10 +53,13 @@ def acquire_lock(configdict, inputfilepath):
     with open(lockfile, 'w') as f:
         f.write(lockfile_contents)
 
+    logger.debug(f'Lock obtained for file: {inputfilepath}')
+
 
 @app.task
 def release_lock(configdict, inputfilepath):
     """ Attempt to release the lock on the original input file. """
+    logger.info(f'Attempting to release lock for file: {inputfilepath}')
     lockfile = f'{inputfilepath}.lock'
 
     # Ensure that we haven't attempted to release a non-running file.
@@ -62,6 +70,7 @@ def release_lock(configdict, inputfilepath):
         )
 
     os.remove(lockfile)
+    logger.debug(f'Lock released for file: {inputfilepath}')
 
 
 # I/O Tasks
@@ -74,6 +83,7 @@ def get_run_config(configdict, inputfilepath):
 
     :returns: run_config
     """
+    logger.info(f'Attempting to parse run config for {inputfilepath}')
     with open(inputfilepath) as f:
         return yaml.load(f)
 
@@ -81,6 +91,7 @@ def get_run_config(configdict, inputfilepath):
 @app.task
 def write_report(prevous_results, specio_config):
     """ Given a reportblob, write the report to the desired output location. """
+    logger.info(f'Attempting to write report.')
     run_config, report_blob = prevous_results
 
     with open(run_config['output'], 'wb') as f:
@@ -96,5 +107,9 @@ def validate_run_config(run_config, specio_config):
 
     :returns: run_config
     """
-    # TODO: Validate Run Config
+    logger.info(f'Attempting to validate run config.')
+
+    # TODO: Validate Run Config, for now write a warning.
+    logger.warning('No validation is currently being done. Please review and add.')
+
     return run_config

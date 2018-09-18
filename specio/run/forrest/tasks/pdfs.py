@@ -1,4 +1,5 @@
 from base64 import b64encode
+import logging
 import os, os.path
 import shutil
 from tempfile import mkdtemp, SpooledTemporaryFile
@@ -9,11 +10,15 @@ from pydf import template_to_pdf, unzip, find_index
 from run.forrest.celery import app
 
 
+logger = logging.getLogger(__name__)
+
+
 @app.task
 def get_report(previous_results, specio_config):
     """ Given a run config and specio formatted results, attempt to generate the
     PDF report for the results.
     """
+    logger.info('Attempting to generate report from test results.')
     # Unpack results
     run_config, specio_results = previous_results
 
@@ -22,6 +27,7 @@ def get_report(previous_results, specio_config):
         index_fp = source_fp    # Index template file
 
         if zipfile.is_zipfile(source_fp):
+            logger.debug('Input template is a zip archive.')
             tmp_dir = mkdtemp()
             files = list(unzip(source_fp, tmp_dir))
             index_path = find_index(files)
@@ -30,6 +36,8 @@ def get_report(previous_results, specio_config):
                 raise ValidationError('Could not find index file for source.')
 
             index_fp = open(index_path)
+        else:
+            logger.debug('Input template is a file.')
 
 
         # HAXX: For now, we have to cd into the directory where the template is
@@ -45,4 +53,5 @@ def get_report(previous_results, specio_config):
                 index_fp.close()
                 shutil.rmtree(tmp_dir)
 
+        logger.debug('Report successfully generated.')
         return run_config, b64encode(report_blob).decode('ascii')

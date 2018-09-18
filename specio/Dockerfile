@@ -51,6 +51,7 @@ RUN pip install -e /install/dom2fixture && \
     pip install -e /install/veripy2specio && \
     pip install -e /install/run
 
+COPY logging.yml .
 COPY entrypoint .
 CMD ["entrypoint"]
 

@@ -1,6 +1,11 @@
+import logging
+
 from watchdog.events import PatternMatchingEventHandler
 
 from run.forrest.tasks import pipeline
+
+
+logger = logging.getLogger(__name__)
 
 
 class SpecioEventHandler(PatternMatchingEventHandler):
@@ -24,10 +29,9 @@ class SpecioEventHandler(PatternMatchingEventHandler):
 
     def _kickoff(self, path):
         if path.endswith('.lock'):
-            # Silently ignore lockfiles.
-            pass
+            logger.debug('Found lockfile. Ignoring...')
         elif path.endswith('.yml'):
-            print(f'Dispatching pipeline for {path}')
+            logger.info(f'Dispatching pipeline for {path}')
             pipeline(self.configdict, path)
         else:
-            print('Non-config File detected. Ignoring...')
+            logger.info('Non-config File detected. Ignoring...')

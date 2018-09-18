@@ -1,3 +1,4 @@
+import logging
 import os
 
 from celery import chain
@@ -6,15 +7,23 @@ from run.forrest.celery import app
 from . import fs, pdfs, veripy
 
 
+logger = logging.getLogger(__name__)
+
+
 @app.task
 def debug_task():
-    print('Hello')
+    logger.debug('Hello')
 
 
 @app.task
 def log_error(specio_config, inputfilepath, request, exc, traceback):
-    # TODO: Add logger to detect errors
-    print(traceback)
+    logger.error(traceback)
+
+
+@app.task
+def completion(inputfilepath):
+    logger.info(f'Workflow complete for file: {inputfilepath}')
+    # TODO: Send email to someplace about completion.
 
 
 @app.task
@@ -45,6 +54,7 @@ def pipeline(specio_config, inputfilepath):
     leaving the disk in a non-polluted state.
 
     """
+    logger.debug(f'Constructing Specio workflow for: {inputfilepath}')
     workflow = chain(
         # Attempt to acquire a lock for the given run
         fs.acquire_lock.si(specio_config, inputfilepath).on_error(
@@ -83,6 +93,10 @@ def pipeline(specio_config, inputfilepath):
 
         # Release the lock
         fs.release_lock.si(specio_config, inputfilepath).on_error(
+            log_error.s(specio_config, inputfilepath)
+        ),
+        # Log the completion.
+        completion.si(inputfilepath).on_error(
             log_error.s(specio_config, inputfilepath)
         ),
     )

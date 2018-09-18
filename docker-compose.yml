@@ -19,8 +19,6 @@ services:
     environment:
       - RUN_MODE=head
     # Allow intercation with PDB
-    # environment:
-    #   - WORKDIR=/opt/specio
     stdin_open: true
     tty: true
 
@@ -46,6 +44,9 @@ services:
       - SELENIUM_URL=http://selenium_hub:4444/wd/hub
       - ENVIRONMENT=dev
       - PYTHONPATH=/app/veripy
+    # Allow intercation with PDB
+    stdin_open: true
+    tty: true
 
   pdfs:
     build:

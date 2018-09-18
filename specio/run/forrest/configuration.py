@@ -1,4 +1,8 @@
 import argparse
+import logging
+
+
+logger = logging.getLogger(__name__)
 
 
 class Configuration(object):
@@ -32,6 +36,11 @@ class Configuration(object):
               default=False,
               help='Process filenames case sensitivly.')),
 
+        (('--logging_config',),
+         dict(type=str,
+              default='/app/logging.yml',
+              help='A configuration file for logging.')),
+
         (('-p', '--path',),
          dict(type=str,
               default='/opt/dropzone',
@@ -53,6 +62,7 @@ class Configuration(object):
     )
 
     def __init__(self):
+        logger.debug('Initializing application configuration.')
         parser = argparse.ArgumentParser()
 
         for args, kwargs in self.OPTIONS:
