@@ -76,8 +76,7 @@ services:
       - queue
     ports:
         - "5555:5555"
-    environment:
-      - FLOWER_BROKER_API=redis://queue
+    entrypoint: 'flower --broker=redis://queue:6379/0'
 
   #
   # Browser virtualization integration testing
