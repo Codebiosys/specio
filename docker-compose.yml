@@ -8,7 +8,6 @@ services:
       target: development
     restart: always
     depends_on:
-      - pdfs
       - queue
     links:
       - queue
@@ -28,7 +27,6 @@ services:
       target: development
     restart: always
     depends_on:
-      - pdfs
       - queue
       - selenium_hub
     links:
@@ -47,17 +45,6 @@ services:
     # Allow intercation with PDB
     stdin_open: true
     tty: true
-
-  pdfs:
-    build:
-      context: https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/pdf-microservice.git
-      dockerfile: Dockerfile-production
-    restart: always
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./dropzone:/opt/dropzone
-      - ./pdfs:/opt/config
 
   sftp:
     image: atmoz/sftp

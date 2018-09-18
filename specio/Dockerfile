@@ -13,6 +13,7 @@ FROM python:3.6 AS base
 RUN mkdir /install && \
     cd /install && \
     git clone https://github.com/Codebiosys/veripy.git && \
+    cd veripy && git checkout 92c1720771fac97c86aa423ed7a44a76717cd4ff && cd - && \
     pip install -r ./veripy/requirements.txt
 
 # Install PyDF
