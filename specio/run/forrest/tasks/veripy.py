@@ -100,12 +100,10 @@ def veripy(run_config, specio_config):
         logger.debug(f'Running VeriPy in {cwd}')
         with Popen(command, **kwargs) as connection:
             for line in connection.stdout:
-                # TODO: Replace with logging.
-                print(line)
+                logger.info(line)
 
             for line in connection.stderr:
-                # TODO: Replace with logging.
-                print(line)
+                logger.info(line)
 
             connection.wait()
 
