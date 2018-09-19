@@ -38,11 +38,13 @@ cucumber_json = 'cucumber.json'
 
 
 veripy_command_template = """\
-TMP_DIRECTORY={cwd}/tmp \
+RESOURCES_DIR={cwd}/resources \
+REPORTS_DIR={cwd}/reports \
+FIXTURES_DIR={cwd}/fixtures \
 behave \
-    -o {cwd}/reports/{cucumber_json} \
-    -f formatters.cucumber_json:PrettyCucumberJSONFormatter \
-    {veripy_features};
+    --outfile {cwd}/reports/{cucumber_json} \
+    --format veripy.formatters.cucumber_json:PrettyCucumberJSONFormatter \
+    {cwd};
 """
 
 
@@ -60,60 +62,38 @@ def veripy(run_config, specio_config):
     parsed results of the cucumber.json emitted by VeriPy.
     """
     logging.info('Attempting to run VeriPy against run_config.')
-    with tempfile.TemporaryDirectory() as cwd:
-        logger.debug(f'VeriPy working directory: {cwd}')
-        features_dir = f'{cwd}/features'
+    cwd = run_config['input']
 
-        # Copy the features in from the configured location into the tmp directory.
-        logger.debug(f'Copying features to {cwd}')
-        copytree(run_config['features'], features_dir)
+    command = veripy_command_template.format(
+        cucumber_json=cucumber_json,
+        cwd=cwd,
+    )
+    kwargs = dict(
+        universal_newlines=True,
+        stderr=PIPE,
+        stdout=PIPE,
+        shell=True,
+        cwd=cwd,
+    )
 
-        # Symlink the features from the current directory into VeriPy so that
-        # they can be run.
-        logger.debug(f'Symlinking {features_dir} to {specio_config["veripy_features"]}')
-        os.symlink(
-            features_dir,
-            specio_config['veripy_features'],
-            target_is_directory=True
-        )
+    # Run VeriPy with the given features.
+    #
+    # NOTE: We chose to use Popen rather than a simpler API because the
+    # connection allows us to progressively iterate over stdout/stderr while
+    # the program is running.
+    logger.debug(f'Running VeriPy in {cwd}')
+    with Popen(command, **kwargs) as connection:
+        for line in connection.stdout:
+            logger.info(line)
 
-        # Command setup
+        for line in connection.stderr:
+            logger.info(line)
 
-        command = veripy_command_template.format(
-            veripy_features=specio_config['veripy_features'],
-            cucumber_json=cucumber_json,
-            cwd=cwd,
-        )
-        kwargs = dict(
-            universal_newlines=True,
-            stderr=PIPE,
-            stdout=PIPE,
-            shell=True,
-            cwd='/app',
-        )
+        connection.wait()
 
-        # Run VeriPy with the given features.
-        #
-        # NOTE: We chose to use Popen rather than a simpler API because the
-        # connection allows us to progressively iterate over stdout/stderr while
-        # the program is running.
-        logger.debug(f'Running VeriPy in {cwd}')
-        with Popen(command, **kwargs) as connection:
-            for line in connection.stdout:
-                logger.info(line)
-
-            for line in connection.stderr:
-                logger.info(line)
-
-            connection.wait()
-
-        # Clean up the symlinks so they don't pollute the fs.
-        logger.debug(f'Cleaning up symlinks.')
-        os.unlink(specio_config['veripy_features'])
-
-        # Parse the output and exit.
-        with open(f'{cwd}/reports/{cucumber_json}') as f:
-            return run_config, json.load(f)
+    # Parse the output and exit.
+    with open(f'{cwd}/reports/{cucumber_json}') as f:
+        return run_config, json.load(f)
 
 
 @app.task
