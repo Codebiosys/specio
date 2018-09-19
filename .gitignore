@@ -109,3 +109,22 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+
+
+### Additional ignores
+
+# macOS
+.DS_Store
+
+# VeriPy logging output for the specified bundle
+veripy.log
+
+# Ignore contents of directories that generate output
+pdfs/
+!pdfs/.gitkeep
+
+reports/
+!reports/.gitkeep
+
+dropzone/
+!dropzone/.gitkeep

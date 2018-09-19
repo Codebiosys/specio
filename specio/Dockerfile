@@ -9,30 +9,23 @@
 
 FROM python:3.6 AS base
 
-# Install VeriPy dependencies first to cache them away
-RUN mkdir /install && \
-    cd /install && \
-    git clone https://github.com/Codebiosys/veripy.git && \
-    cd veripy && git checkout 92c1720771fac97c86aa423ed7a44a76717cd4ff && cd - && \
-    pip install -r ./veripy/requirements.txt
+# Install VeriPy
+RUN pip install git+https://github.com/Codebiosys/veripy.git@v0.1.0#egg=veripy
 
 # Install PyDF
-RUN cd /install && \
-    git clone https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/pydf.git && \
-    pip install ./pydf
+RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/pydf.git@master#egg=pydf
+
+# Do not buffer Python output
+ENV PYTHONUNBUFFERED=0
 
 # Setup filesytem to what VeriPy expects
 # All module directories will be at /app/veripy/*
 WORKDIR /app
-RUN mv /install/veripy/veripy .
 
 #
 # Development multi-stage target
 #
 FROM base AS development
-
-# Install additional dependencies testing dependencies
-RUN pip install -r /install/veripy/requirements-development.txt
 
 # Copy source code last so it can be mounted in Compose
 # For development, each individual tool's requirements files must be copied
