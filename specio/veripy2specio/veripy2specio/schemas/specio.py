@@ -57,6 +57,18 @@ step_group = {
 }
 
 
+scenario_tag = {
+    'type': 'object',
+    'properties': {
+        'name': {'type' : 'string'},
+        'last': {'type' : 'bool'},
+    },
+    'required': [
+        'name',
+    ],
+}
+
+
 scenario = {
     'type' : 'object',
     'properties' : {
@@ -84,7 +96,7 @@ feature = {
         'name': {'type': 'string'},
         'scenario_tags': {
             'type': 'array',
-            'items': {'type': 'string'}
+            'items': scenario_tag
         },
         'scenarios': {
             'type' : 'array',

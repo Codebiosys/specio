@@ -10,8 +10,8 @@ class Veripy2SpecioTransform(object):
 
     **Sample Usage**
     ::
-        veripy_input, config = get_input_and_config()
-        transform = Veripy2SpecioTransform(config)
+        veripy_input = get_input()
+        transform = Veripy2SpecioTransform()
         specio_output = transform(veripy_input)
 
     **Subclassing Notes**
@@ -19,9 +19,6 @@ class Veripy2SpecioTransform(object):
     Typically, the methods take the form <element>_from_<parent_element>
     and return a generator.
     """
-
-    def __init__(self, config):
-        self.config = config
 
     def __call__(self, input):
         return {
