@@ -12,8 +12,9 @@ FROM python:3.6 AS base
 # Install VeriPy
 RUN pip install git+https://github.com/Codebiosys/veripy.git@v0.1.0#egg=veripy
 
-# Install PyDF
-RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/pydf.git@master#egg=pydf
+# Install PyDF and a special version of weasyprint
+RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/pydf.git@master#egg=pydf && \
+    pip install --ignore-installed git+https://github.com/Kozea/WeasyPrint@56904ba#egg=weasyprint
 
 # Install veripy2specio
 RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/veripy2specio.git@master#egg=veripy2specio
