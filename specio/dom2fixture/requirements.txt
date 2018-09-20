@@ -1,2 +1,0 @@
-lxml==4.2.4
-titlecase==0.12.0
