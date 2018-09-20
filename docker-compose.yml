@@ -46,14 +46,6 @@ services:
     stdin_open: true
     tty: true
 
-  sftp:
-    image: atmoz/sftp
-    volumes:
-        - dropzone-users:/home
-        - ./sftp:/etc/sftp:ro
-    ports:
-        - "2222:22"
-
   queue:
     image: redis
 
