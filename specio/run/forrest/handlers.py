@@ -26,7 +26,6 @@ class SpecioEventHandler(PatternMatchingEventHandler):
             return
         self._kickoff(event.src_path)
 
-
     def _kickoff(self, path):
         if path.endswith('.lock'):
             logger.debug('Found lockfile. Ignoring...')

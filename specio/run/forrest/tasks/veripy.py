@@ -1,11 +1,6 @@
 import logging
 import json
-import os
-import shlex
-from shutil import copytree
-from subprocess import run, Popen, STDOUT, PIPE, CalledProcessError
-import tempfile
-from uuid import uuid4
+from subprocess import Popen, PIPE
 
 from veripy2specio.transforms import Veripy2SpecioTransform
 
