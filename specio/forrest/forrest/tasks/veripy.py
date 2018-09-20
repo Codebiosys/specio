@@ -4,7 +4,7 @@ from subprocess import Popen, PIPE
 
 from veripy2specio.transforms import Veripy2SpecioTransform
 
-from run.forrest.celery import app
+from ..celery import app
 
 
 logger = logging.getLogger(__name__)

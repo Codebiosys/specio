@@ -2,7 +2,7 @@ import logging
 
 from watchdog.events import PatternMatchingEventHandler
 
-from run.forrest.tasks import pipeline
+from .tasks import pipeline
 
 
 logger = logging.getLogger(__name__)

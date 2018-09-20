@@ -8,7 +8,7 @@ import zipfile
 
 from pydf import template_to_pdf, unzip, find_index
 
-from run.forrest.celery import app
+from ..celery import app
 
 
 logger = logging.getLogger(__name__)

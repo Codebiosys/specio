@@ -4,8 +4,8 @@ from contextlib import contextmanager
 import os
 import os.path
 
-from run.forrest import run
-from run.forrest.celery import app
+from forrest import run
+from forrest.celery import app
 
 
 PIDFILE = 'gump.pid'

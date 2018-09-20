@@ -37,10 +37,10 @@ FROM base AS development
 # Python file changes (in case the developer decides to mount the modules
 # for development).
 COPY ./run/requirements* /install/run/
-RUN pip install -r /install/run/requirements-development.txt
+RUN pip install -r /install/forrest/requirements-development.txt
 
 COPY . /install/
-RUN pip install -e /install/run
+RUN pip install -e /install/forrest
 
 # Setup filesytem to what VeriPy expects
 # All module directories will be at /app/veripy/*
@@ -58,7 +58,7 @@ FROM base AS production
 
 # Copy and install immediately, there won't be file changes in production
 COPY . /install/
-RUN pip install /install/run
+RUN pip install /install/forrest
 
 # Setup filesytem to what VeriPy expects
 # All module directories will be at /app/veripy/*

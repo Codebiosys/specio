@@ -6,7 +6,7 @@ app = Celery(
     broker='redis://queue/',
     backend='redis://queue/',
     imports=(
-        'run.forrest.tasks',
+        'forrest.tasks',
     ),
  )
 

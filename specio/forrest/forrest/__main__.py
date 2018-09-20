@@ -1,4 +1,4 @@
-from forrest import run
+from . import run
 
 
 if __name__ == '__main__':

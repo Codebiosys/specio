@@ -2,7 +2,7 @@ import logging
 
 from celery import chain
 
-from run.forrest.celery import app
+from ..celery import app
 from . import fs, pdfs, veripy
 
 
