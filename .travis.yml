@@ -5,9 +5,12 @@ python:
   - "3.7"
   - "3.8-dev"
 
+before_install:
+  - cd specio/run
+
 install:
-  - cd specio/run && pip install .[develop]
+  - pip install .[develop]
 
 script:
-  - cd specio/run && flake8
-  - cd specio/run && pytest
+  - flake8
+  - pytest
