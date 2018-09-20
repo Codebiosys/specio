@@ -37,9 +37,7 @@ class FailedToReleaseLock(Exception):
 def acquire_lock(configdict, inputfilepath):
     """ Attempt to acquire the lock on the input file. """
     logger.info(f'Attempting to acquire lock for file: {inputfilepath}')
-    pwd = os.path.dirname(inputfilepath)
-    name = os.path.basename(inputfilepath)
-    lockfile = f'{pwd}/{name}.lock'
+    lockfile = f'{inputfilepath}.lock'
 
     # Ensure that we haven't attempted to run an already running file.
     # TODO: We might want to parse the date of the run and ensure that it's
