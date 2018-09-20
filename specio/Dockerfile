@@ -25,10 +25,6 @@ RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com
 # Do not buffer Python output
 ENV PYTHONUNBUFFERED=0
 
-# Setup filesytem to what VeriPy expects
-# All module directories will be at /app/veripy/*
-WORKDIR /app
-
 #
 # Development multi-stage target
 #
@@ -46,9 +42,13 @@ RUN pip install -r /install/run/requirements-development.txt
 COPY . /install/
 RUN pip install -e /install/run
 
+# Setup filesytem to what VeriPy expects
+# All module directories will be at /app/veripy/*
+WORKDIR /app
+
 COPY logging.yml .
 COPY entrypoint .
-CMD ["entrypoint"]
+CMD ["./entrypoint"]
 
 
 #
@@ -60,5 +60,9 @@ FROM base AS production
 COPY . /install/
 RUN pip install /install/run
 
+# Setup filesytem to what VeriPy expects
+# All module directories will be at /app/veripy/*
+WORKDIR /app
+
 COPY entrypoint .
-CMD ["entrypoint"]
+CMD ["./entrypoint"]
