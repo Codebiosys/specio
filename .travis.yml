@@ -1,0 +1,18 @@
+language: python
+dist: xenial
+sudo: required
+
+python:
+  - '3.6'
+  - "3.7"
+  - "3.8-dev"
+
+before_install:
+  - cd specio/run
+
+install:
+  - pip install .[develop]
+
+script:
+  - flake8
+  - pytest

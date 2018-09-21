@@ -1,4 +1,5 @@
-import logging, logging.config
+import logging
+import logging.config
 import time
 import yaml
 
@@ -50,7 +51,7 @@ def main():
     logger.info('Entering runloop. Watching for changes...')
 
     try:
-        while True: time.sleep(1)
+        while True: time.sleep(1)  # noqa
     except KeyboardInterrupt:
         logger.info('Runloop cancelled by user. Exiting.')
         observer.stop()

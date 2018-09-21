@@ -1,2 +1,0 @@
-jsonschema==2.6.0     # JSON Schema Validation
-markdown2==2.3.5      # Formatting

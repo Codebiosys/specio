@@ -1,8 +1,9 @@
 from base64 import b64encode
 import logging
-import os, os.path
+import os
+import os.path
 import shutil
-from tempfile import mkdtemp, SpooledTemporaryFile
+from tempfile import mkdtemp
 import zipfile
 
 from pydf import template_to_pdf, unzip, find_index
@@ -33,12 +34,11 @@ def get_report(previous_results, specio_config):
             index_path = find_index(files)
 
             if not index_path:
-                raise ValidationError('Could not find index file for source.')
+                raise Exception('Could not find index file for source.')
 
             index_fp = open(index_path)
         else:
             logger.debug('Input template is a file.')
-
 
         # HAXX: For now, we have to cd into the directory where the template is
         # to pull in the assets.

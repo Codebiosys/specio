@@ -1,1 +1,1 @@
-from .forrest import celery  # bootstrap celery
+from .forrest import celery  # noqa bootstrap celery

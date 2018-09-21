@@ -1,7 +1,8 @@
 from base64 import b64decode
 from datetime import datetime
 import logging
-import os, os.path
+import os
+import os.path
 import yaml
 
 from run.forrest.celery import app

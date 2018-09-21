@@ -15,6 +15,12 @@ RUN pip install git+https://github.com/Codebiosys/veripy.git@v0.1.0#egg=veripy
 # Install PyDF
 RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/pydf.git@master#egg=pydf
 
+# Install veripy2specio
+RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/veripy2specio.git@master#egg=veripy2specio
+
+# Install dom2fixture
+RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/dom2fixture.git@master#egg=dom2fixture
+
 # Do not buffer Python output
 ENV PYTHONUNBUFFERED=0
 
@@ -33,17 +39,11 @@ FROM base AS development
 # the actual Python module so that the dependencies are not re-installed on
 # Python file changes (in case the developer decides to mount the modules
 # for development).
-COPY ./dom2fixture/requirements* /install/dom2fixture/
-COPY ./veripy2specio/requirements* /install/veripy2specio/
 COPY ./run/requirements* /install/run/
-RUN pip install -r /install/dom2fixture/requirements-development.txt && \
-    pip install -r /install/veripy2specio/requirements-development.txt && \
-    pip install -r /install/run/requirements-development.txt
+RUN pip install -r /install/run/requirements-development.txt
 
 COPY . /install/
-RUN pip install -e /install/dom2fixture && \
-    pip install -e /install/veripy2specio && \
-    pip install -e /install/run
+RUN pip install -e /install/run
 
 COPY logging.yml .
 COPY entrypoint .
@@ -57,9 +57,7 @@ FROM base AS production
 
 # Copy and install immediately, there won't be file changes in production
 COPY . /install/
-RUN pip install /install/dom2fixture && \
-    pip install /install/veripy2specio && \
-    pip install /install/run
+RUN pip install /install/run
 
 COPY entrypoint .
 CMD ["entrypoint"]
