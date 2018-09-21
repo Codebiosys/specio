@@ -36,7 +36,7 @@ FROM base AS development
 # the actual Python module so that the dependencies are not re-installed on
 # Python file changes (in case the developer decides to mount the modules
 # for development).
-COPY ./run/requirements* /install/run/
+COPY ./forrest/requirements* /install/forrest/
 RUN pip install -r /install/forrest/requirements-development.txt
 
 COPY . /install/
