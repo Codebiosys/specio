@@ -120,6 +120,9 @@ dmypy.json
 veripy.log
 
 # Ignore contents of directories that generate output
+customers/
+!customers/.gitkeep
+
 pdfs/
 !pdfs/.gitkeep
 

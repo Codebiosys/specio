@@ -13,7 +13,7 @@ services:
       - queue
     entrypoint: /install/entrypoint
     volumes:
-      - dropzone-users:/opt/dropzone/users
+      - ./dropzone:/opt/dropzone/users
       - ./customers:/opt/customers
     environment:
       - RUN_MODE=head
@@ -33,7 +33,7 @@ services:
       - queue
       - selenium_hub:selenium_hub
     volumes:
-      - dropzone-users:/opt/dropzone/users
+      - ./dropzone:/opt/dropzone/users
       - ./customers:/opt/customers
     entrypoint: /install/entrypoint
     environment:
@@ -71,4 +71,3 @@ services:
 
 volumes:
   uploads:
-  dropzone-users:
