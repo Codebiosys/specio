@@ -64,7 +64,6 @@ def main(run_once=False):
         logger.info('Pipeline complete! Exiting.')
         return
 
-
     # In the normal run-forever mode.
 
     event_handler = get_event_handler(config)
