@@ -9,8 +9,11 @@ from forrest.celery import app
 
 
 PIDFILE = 'gump.pid'
-WORKER_MODE = 'worker'
 RUN_MODE = os.environ['RUN_MODE'].lower()
+WATCH_MODE, WORKER_MODE = (
+  'watch',
+  'worker',
+)
 
 
 @contextmanager
@@ -36,6 +39,8 @@ if __name__ == '__main__':
     if RUN_MODE == WORKER_MODE:
       print('Starting Worker')
       app.worker_main()
-    else:
-      print('Initializing Specio')
+    elif RUN_MODE == WATCH_MODE:
+      print('Initializing File Watching')
       run.main()
+    else:
+      print('Skipping initialization. Pipelines must be run manually.')
