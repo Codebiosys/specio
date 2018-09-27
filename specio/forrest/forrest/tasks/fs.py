@@ -5,7 +5,7 @@ import os
 import os.path
 import yaml
 
-from run.forrest.celery import app
+from ..celery import app
 
 
 logger = logging.getLogger(__name__)

@@ -12,8 +12,9 @@ FROM python:3.6 AS base
 # Install VeriPy
 RUN pip install git+https://github.com/Codebiosys/veripy.git@v0.1.0#egg=veripy
 
-# Install PyDF
-RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/pydf.git@master#egg=pydf
+# Install PyDF and a special version of weasyprint
+RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/pydf.git@master#egg=pydf && \
+    pip install --ignore-installed git+https://github.com/Kozea/WeasyPrint@56904ba#egg=weasyprint
 
 # Install veripy2specio
 RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/veripy2specio.git@master#egg=veripy2specio
@@ -23,10 +24,6 @@ RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com
 
 # Do not buffer Python output
 ENV PYTHONUNBUFFERED=0
-
-# Setup filesytem to what VeriPy expects
-# All module directories will be at /app/veripy/*
-WORKDIR /app
 
 #
 # Development multi-stage target
@@ -39,15 +36,19 @@ FROM base AS development
 # the actual Python module so that the dependencies are not re-installed on
 # Python file changes (in case the developer decides to mount the modules
 # for development).
-COPY ./run/requirements* /install/run/
-RUN pip install -r /install/run/requirements-development.txt
+COPY ./forrest/requirements* /install/forrest/
+RUN pip install -r /install/forrest/requirements-development.txt
 
 COPY . /install/
-RUN pip install -e /install/run
+RUN pip install -e /install/forrest
+
+# Setup filesytem to what VeriPy expects
+# All module directories will be at /app/veripy/*
+WORKDIR /app
 
 COPY logging.yml .
 COPY entrypoint .
-CMD ["entrypoint"]
+CMD ["./entrypoint"]
 
 
 #
@@ -57,7 +58,11 @@ FROM base AS production
 
 # Copy and install immediately, there won't be file changes in production
 COPY . /install/
-RUN pip install /install/run
+RUN pip install /install/forrest
+
+# Setup filesytem to what VeriPy expects
+# All module directories will be at /app/veripy/*
+WORKDIR /app
 
 COPY entrypoint .
-CMD ["entrypoint"]
+CMD ["./entrypoint"]

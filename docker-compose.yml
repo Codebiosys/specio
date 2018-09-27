@@ -11,7 +11,6 @@ services:
       - queue
     links:
       - queue
-    entrypoint: /install/entrypoint
     volumes:
       - ./dropzone:/opt/dropzone
       - ./customers:/opt/customers
@@ -35,13 +34,11 @@ services:
     volumes:
       - ./dropzone:/opt/dropzone
       - ./customers:/opt/customers
-    entrypoint: /install/entrypoint
     environment:
       - RUN_MODE=worker
       - BROWSER=remote
       - SELENIUM_URL=http://selenium_hub:4444/wd/hub
       - ENVIRONMENT=dev
-      - PYTHONPATH=/app/veripy
     # Allow intercation with PDB
     stdin_open: true
     tty: true
@@ -55,7 +52,7 @@ services:
       - queue
     ports:
         - "5555:5555"
-    entrypoint: 'flower --broker=redis://queue:6379/0'
+    command: 'flower --broker=redis://queue:6379/0'
 
   #
   # Browser virtualization integration testing
