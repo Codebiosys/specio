@@ -99,4 +99,4 @@ def pipeline(specio_config, inputfilepath):
             log_error.s(specio_config, inputfilepath)
         ),
     )
-    workflow.delay()
+    return workflow()

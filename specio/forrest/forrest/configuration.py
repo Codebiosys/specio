@@ -57,7 +57,7 @@ class Configuration(object):
               help='The place to inject features into veripy.')),
 
         (('-i', '--input',),
-         dict(type=argparse.FileType('r'),
+         dict(type=str,
               help='The location of the input file. (To specify stdin use \'-\')')),
     )
 
