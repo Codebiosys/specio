@@ -69,5 +69,59 @@ services:
     volumes:
       - "uploads:/uploads"
 
+  #
+  # Elk Logging Stack
+  #
+
+  elasticsearch:
+    build: https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/elk-stack.git#master:elasticsearch
+    restart: always
+    expose:
+      - 9200
+      - 9300
+    environment:
+      - LOGSPOUT=ignore
+      - "ES_JAVA_OPTS=-Xmx512m -Xms512m"
+    volumes:
+      - elasticsearch:/usr/share/elasticsearch/data
+
+  logstash:
+    build: https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/elk-stack.git#master:logstash
+    depends_on:
+      - elasticsearch
+    restart: always
+    expose:
+      - 5000
+      - 9600
+    environment:
+      - LOGSPOUT=ignore
+      - DROP_NON_JSON=false
+      - "xpack.security.enabled=false"
+      - "LS_JAVA_OPTS=-Xmx256m -Xms256m"
+
+  logspout:
+    build: https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/elk-stack.git#master:logspout
+    depends_on:
+      - logstash
+    restart: always
+    environment:
+      - ROUTE_URIS=logstash://logstash:5000
+      - LOGSTASH_TAGS=docker-elk
+      - SYSLOG_FORMAT=rfc3164
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  kibana:
+    build: https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/elk-stack.git#master:kibana
+    depends_on:
+      - elasticsearch
+    restart: always
+    ports:
+      - "5601:5601"
+    environment:
+      - LOGSPOUT=ignore
+      - "xpack.security.enabled=false"
+
 volumes:
   uploads:
+  elasticsearch:
