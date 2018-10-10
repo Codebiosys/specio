@@ -15,13 +15,13 @@ logger = logging.getLogger(__name__)
 
 
 @app.task
-def get_report(previous_results, specio_config):
+def get_report(kwargs):
     """ Given a run config and specio formatted results, attempt to generate the
     PDF report for the results.
     """
     logger.info('Attempting to generate report from test results.')
     # Unpack results
-    run_config, specio_results = previous_results
+    run_config, specio_results = kwargs['run_config'], kwargs['specio_results']
 
     with open(run_config['template'], 'rb') as source_fp:
         tmp_dir = None          # temporary directory to extract files into
@@ -54,4 +54,8 @@ def get_report(previous_results, specio_config):
                 shutil.rmtree(tmp_dir)
 
         logger.debug('Report successfully generated.')
-        return run_config, b64encode(report_blob).decode('ascii')
+
+        return {
+            **kwargs,
+            'report_blob': b64encode(report_blob).decode('ascii'),
+        }

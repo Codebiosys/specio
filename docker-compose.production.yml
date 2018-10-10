@@ -5,7 +5,7 @@ services:
   specio:
     build:
       context: ./specio
-      target: development
+      target: production
     restart: on-failure
     depends_on:
       - queue
@@ -34,7 +34,7 @@ services:
   worker:
     build:
       context: ./specio
-      target: development
+      target: production
     restart: always
     depends_on:
       - queue
@@ -63,7 +63,7 @@ services:
     links:
       - queue
     ports:
-        - "5555:5555"
+        - "127.0.0.1:5555:5555"
     command: 'flower --broker=redis://queue:6379/0'
 
   #
@@ -72,13 +72,11 @@ services:
   selenium_hub:
     build:
       context: ./selenium
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile-production
     privileged: true
     expose:
       - 4444
       - 8000
-    ports:
-      - "5900:5900"
     volumes:
       - "uploads:/uploads"
       - recordings:/opt/recordings
@@ -131,7 +129,7 @@ services:
       - elasticsearch
     restart: always
     ports:
-      - "5601:5601"
+      - "127.0.0.1:5601:5601"
     environment:
       - LOGSPOUT=ignore
       - "xpack.security.enabled=false"
