@@ -10,6 +10,7 @@ logger = logging.getLogger(__name__)
 
 # Endpoints
 
+
 RECORDING_SERVICE = 'http://selenium_hub:8000'
 START_ENDPOINT = f'{RECORDING_SERVICE}/start'
 STOP_ENDPOINT = f'{RECORDING_SERVICE}/stop'
@@ -20,9 +21,7 @@ STOP_ENDPOINT = f'{RECORDING_SERVICE}/stop'
 
 @app.task
 def start_recording(kwargs):
-    response = requests.post(START_ENDPOINT, {
-
-    })
+    response = requests.post(START_ENDPOINT)
     response.raise_for_status()
 
     result = response.json()

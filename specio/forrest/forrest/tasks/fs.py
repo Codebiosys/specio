@@ -38,15 +38,24 @@ class FailedToReleaseLock(Exception):
 @app.task
 def acquire_lock(kwargs):
     """ Attempt to acquire the lock on the input file. """
-    inputfilepath = kwargs['inputfilepath']
+    inputfilepath, specio_config = kwargs['inputfilepath'], kwargs['specio_config']
 
     logger.info(f'Attempting to acquire lock for file: {inputfilepath}')
     lockfile = f'{inputfilepath}.lock'
 
     # Ensure that we haven't attempted to run an already running file.
+    # The user can also force the run to occur and in that case we ignore the
+    # lockfile and overwrite it.
     # TODO: We might want to parse the date of the run and ensure that it's
     # not referring to a run that might have expired...
-    if os.path.exists(lockfile):
+    if specio_config['force']:
+        logger.info('Run was forced! Ignoring lockfile.')
+        logger.warning(
+            'Be careful when forcing runs. Lockfiles ensure that the same test '
+            'isn\'t being run more than once at a time. Multiple concurrent, identical '
+            'runs is not supported and can cause unexpected results.'
+        )
+    elif os.path.exists(lockfile):
         raise FailedToAcquireLock(f'Lockfile for {inputfilepath} already exists.')
 
     now = datetime.now().isoformat()

@@ -26,7 +26,6 @@ def completion(kwargs):
     # TODO: Send email to someplace about completion.
 
 
-@app.task
 def pipeline(specio_config, inputfilepath):
     """ The Main Workflow for the Specio Pipeline.
 
@@ -63,62 +62,40 @@ def pipeline(specio_config, inputfilepath):
 
     workflow = chain(
         # Attempt to acquire a lock for the given run
-        fs.acquire_lock.si(kwargs).on_error(
-            log_error.s()
-        ),
+        fs.acquire_lock.si(kwargs),
 
         # Load in the specio_config
-        fs.get_run_config.s().on_error(
-            log_error.s()
-        ),
+        fs.get_run_config.s(),
 
         # Do specio_config validation
-        fs.validate_run_config.s().on_error(
-            log_error.s()
-        ),
+        fs.validate_run_config.s(),
 
         # Start the video recording
-        recording.start_recording.s().on_error(
-            log_error.s()
-        ),
+        recording.start_recording.s(),
 
         # Run VeriPy
-        veripy.veripy.s().on_error(
-            log_error.s()
-        ),
+        veripy.veripy.s(),
 
         # Stop the video recording
-        recording.stop_recording.s().on_error(
-            log_error.s()
-        ),
+        recording.stop_recording.s(),
 
         # Convert the output of VeriPy to the Specio format
-        veripy.convert_to_specio.s().on_error(
-            log_error.s()
-        ),
+        veripy.convert_to_specio.s(),
 
         # Get the PDF report
-        pdfs.get_report.s().on_error(
-            log_error.s()
-        ),
+        pdfs.get_report.s(),
 
         # Copy the recording to the user's preferred destination
-        fs.copy_recording.s().on_error(
-            log_error.s()
-        ),
+        fs.copy_recording.s(),
 
         # Write the report to disk
-        fs.write_report.s().on_error(
-            log_error.s()
-        ),
+        fs.write_report.s(),
 
         # Release the lock
-        fs.release_lock.s().on_error(
-            log_error.s()
-        ),
+        fs.release_lock.s(),
+
         # Log the completion.
-        completion.s().on_error(
-            log_error.s()
-        ),
+        completion.s(),
     )
+
     return workflow()

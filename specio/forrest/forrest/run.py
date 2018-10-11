@@ -56,7 +56,6 @@ def main(run_once=False):
 
         logger.info(f'Dispatching pipeline for {config.input}')
         result = pipeline(configdict, config.input)
-        print(result)
 
         logger.debug(f'Waiting for pipeline to complete...')
         result.get()
