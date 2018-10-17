@@ -26,8 +26,13 @@ handlers:
 
 
 loggers:
-  '':
-    handlers: [default, file, json]
+  'forrest':
+    handlers: [default, json]
     propagate: true
     level: DEBUG
+
+root:
+  handlers: [default]
+  propagate: true
+  level: DEBUG
 

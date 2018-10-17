@@ -21,7 +21,7 @@ services:
     environment:
       # Uncomment this line to enable file-watch mode.
       # - RUN_MODE=watch
-      - RUN_MODE=plain
+      - RUN_MODE=idle
       # These options allow the specio node to act as a worker when running
       # VeriPy directly from the CLI.
       - BROWSER=remote
