@@ -3,6 +3,7 @@ from datetime import datetime
 import logging
 import os
 import os.path
+import shutil
 import yaml
 
 from ..celery import app
@@ -35,15 +36,26 @@ class FailedToReleaseLock(Exception):
 
 
 @app.task
-def acquire_lock(configdict, inputfilepath):
+def acquire_lock(kwargs):
     """ Attempt to acquire the lock on the input file. """
+    inputfilepath, specio_config = kwargs['inputfilepath'], kwargs['specio_config']
+
     logger.info(f'Attempting to acquire lock for file: {inputfilepath}')
     lockfile = f'{inputfilepath}.lock'
 
     # Ensure that we haven't attempted to run an already running file.
+    # The user can also force the run to occur and in that case we ignore the
+    # lockfile and overwrite it.
     # TODO: We might want to parse the date of the run and ensure that it's
     # not referring to a run that might have expired...
-    if os.path.exists(lockfile):
+    if specio_config['force']:
+        logger.info('Run was forced! Ignoring lockfile.')
+        logger.warning(
+            'Be careful when forcing runs. Lockfiles ensure that the same test '
+            'isn\'t being run more than once at a time. Multiple concurrent, identical '
+            'runs is not supported and can cause unexpected results.'
+        )
+    elif os.path.exists(lockfile):
         raise FailedToAcquireLock(f'Lockfile for {inputfilepath} already exists.')
 
     now = datetime.now().isoformat()
@@ -55,11 +67,14 @@ def acquire_lock(configdict, inputfilepath):
         f.write(lockfile_contents)
 
     logger.debug(f'Lock obtained for file: {inputfilepath}')
+    return kwargs
 
 
 @app.task
-def release_lock(configdict, inputfilepath):
+def release_lock(kwargs):
     """ Attempt to release the lock on the original input file. """
+    inputfilepath = kwargs['inputfilepath']
+
     logger.info(f'Attempting to release lock for file: {inputfilepath}')
     lockfile = f'{inputfilepath}.lock'
 
@@ -72,38 +87,54 @@ def release_lock(configdict, inputfilepath):
 
     os.remove(lockfile)
     logger.debug(f'Lock released for file: {inputfilepath}')
+    return kwargs
 
 
 # I/O Tasks
 
 
 @app.task
-def get_run_config(configdict, inputfilepath):
+def get_run_config(kwargs):
     """ Given an input file path, return a dict of the config options for the
     current run.
 
     :returns: run_config
     """
+    inputfilepath = kwargs['inputfilepath']
+
     logger.info(f'Attempting to parse run config for {inputfilepath}')
     with open(inputfilepath) as f:
-        return yaml.load(f)
+        return {
+            **kwargs,
+            'run_config': yaml.load(f),
+        }
 
 
 @app.task
-def write_report(prevous_results, specio_config):
+def write_report(kwargs):
     """ Given a reportblob, write the report to the desired output location. """
-    logger.info(f'Attempting to write report.')
-    run_config, report_blob = prevous_results
+    run_config, report_blob = kwargs['run_config'], kwargs['report_blob']
 
+    logger.info(f'Attempting to write report.')
     with open(run_config['output'], 'wb') as f:
         f.write(b64decode(report_blob.encode('ascii')))
+    return kwargs
+
+
+@app.task
+def copy_recording(kwargs):
+    location, run_config = kwargs['video_location'], kwargs['run_config']
+
+    logger.info(f'Attempting to copy test recording.')
+    shutil.copy(location, run_config['recording_output'])
+    return kwargs
 
 
 # Validation Tasks
 
 
 @app.task
-def validate_run_config(run_config, specio_config):
+def validate_run_config(kwargs):
     """ Given a run config, validate it and if it is valid, return it.
 
     :returns: run_config
@@ -113,4 +144,4 @@ def validate_run_config(run_config, specio_config):
     # TODO: Validate Run Config, for now write a warning.
     logger.warning('No validation is currently being done. Please review and add.')
 
-    return run_config
+    return kwargs

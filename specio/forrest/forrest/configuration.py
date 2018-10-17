@@ -56,6 +56,10 @@ class Configuration(object):
               default='/app/veripy/features/app',
               help='The place to inject features into veripy.')),
 
+        (('-f', '--force',),
+         dict(action='store_true',
+              help='If a lockfile is already present, ignore it and run anyway.')),
+
         (('-i', '--input',),
          dict(type=str,
               help='The location of the input file. (To specify stdin use \'-\')')),

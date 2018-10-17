@@ -52,10 +52,12 @@ veripy2specio -o {specio_json} {cucumber_json};
 
 
 @app.task
-def veripy(run_config, specio_config):
+def veripy(kwargs):
     """ Given a run config, run VeriPy on the features given and return the
     parsed results of the cucumber.json emitted by VeriPy.
     """
+    run_config = kwargs['run_config']
+
     logging.info('Attempting to run VeriPy against run_config.')
     cwd = run_config['input']
 
@@ -63,7 +65,7 @@ def veripy(run_config, specio_config):
         cucumber_json=cucumber_json,
         cwd=cwd,
     )
-    kwargs = dict(
+    cmd_kwargs = dict(
         universal_newlines=True,
         stderr=PIPE,
         stdout=PIPE,
@@ -77,7 +79,7 @@ def veripy(run_config, specio_config):
     # connection allows us to progressively iterate over stdout/stderr while
     # the program is running.
     logger.debug(f'Running VeriPy in {cwd}')
-    with Popen(command, **kwargs) as connection:
+    with Popen(command, **cmd_kwargs) as connection:
         for line in connection.stdout:
             logger.info(line)
 
@@ -88,19 +90,24 @@ def veripy(run_config, specio_config):
 
     # Parse the output and exit.
     with open(f'{cwd}/reports/{cucumber_json}') as f:
-        return run_config, json.load(f)
+        return {
+            **kwargs,
+            'veripy_results': json.load(f),
+        }
 
 
 @app.task
-def convert_to_specio(previous_results, specio_config):
+def convert_to_specio(kwargs):
     """ Given a run config and set of results from VeriPy, convert the results
     to the Specio format.
     """
-    logging.info('Attempting to convert VeriPy output to Specio format.')
-    # Unpack the previous results.
-    run_config, veripy_results = previous_results
+    veripy_results = kwargs['veripy_results']
 
+    logging.info('Attempting to convert VeriPy output to Specio format.')
     transform = Veripy2SpecioTransform()
     specio_json = transform(veripy_results)
 
-    return run_config, specio_json
+    return {
+        **kwargs,
+        'specio_results': specio_json,
+    }

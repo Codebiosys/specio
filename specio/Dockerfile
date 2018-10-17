@@ -23,7 +23,7 @@ RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com
 RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/dom2fixture.git@master#egg=dom2fixture
 
 # Do not buffer Python output
-ENV PYTHONUNBUFFERED=0
+ENV PYTHONUNBUFFERED=1
 
 #
 # Development multi-stage target
@@ -64,5 +64,6 @@ RUN pip install /install/forrest
 # All module directories will be at /app/veripy/*
 WORKDIR /app
 
+COPY logging.yml .
 COPY entrypoint .
 CMD ["./entrypoint"]

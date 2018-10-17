@@ -2,12 +2,11 @@ from celery import Celery
 
 
 app = Celery(
-    'run',
+    'forrest',
     broker='redis://queue/',
     backend='redis://queue/',
-    imports=(
-        'forrest.tasks',
-    ),
  )
 
 app.conf.task_serializer = 'json'
+app.conf.worker_hijack_root_logger = False
+app.conf.worker_redirect_stdouts_level = 'debug'

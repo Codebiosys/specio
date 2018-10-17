@@ -3,7 +3,7 @@ import logging
 from celery import chain
 
 from ..celery import app
-from . import fs, pdfs, veripy
+from . import fs, pdfs, recording, veripy
 
 
 logger = logging.getLogger(__name__)
@@ -15,17 +15,17 @@ def debug_task():
 
 
 @app.task
-def log_error(specio_config, inputfilepath, request, exc, traceback):
+def log_error(request, exc, traceback):
     logger.error(traceback)
 
 
 @app.task
-def completion(inputfilepath):
+def completion(kwargs):
+    inputfilepath = kwargs['inputfilepath']
     logger.info(f'Workflow complete for file: {inputfilepath}')
     # TODO: Send email to someplace about completion.
 
 
-@app.task
 def pipeline(specio_config, inputfilepath):
     """ The Main Workflow for the Specio Pipeline.
 
@@ -54,49 +54,48 @@ def pipeline(specio_config, inputfilepath):
 
     """
     logger.debug(f'Constructing Specio workflow for: {inputfilepath}')
+
+    kwargs = dict(
+        specio_config=specio_config,
+        inputfilepath=inputfilepath,
+    )
+
     workflow = chain(
         # Attempt to acquire a lock for the given run
-        fs.acquire_lock.si(specio_config, inputfilepath).on_error(
-            log_error.s(specio_config, inputfilepath)
-        ),
+        fs.acquire_lock.si(kwargs),
 
         # Load in the specio_config
-        fs.get_run_config.si(specio_config, inputfilepath).on_error(
-            log_error.s(specio_config, inputfilepath)
-        ),
+        fs.get_run_config.s(),
 
         # Do specio_config validation
-        fs.validate_run_config.s(specio_config).on_error(
-            log_error.s(specio_config, inputfilepath)
-        ),
+        fs.validate_run_config.s(),
+
+        # Start the video recording
+        recording.start_recording.s(),
 
         # Run VeriPy
-        veripy.veripy.s(specio_config).on_error(
-            log_error.s(specio_config, inputfilepath)
-        ),
+        veripy.veripy.s(),
+
+        # Stop the video recording
+        recording.stop_recording.s(),
 
         # Convert the output of VeriPy to the Specio format
-        veripy.convert_to_specio.s(specio_config).on_error(
-            log_error.s(specio_config, inputfilepath)
-        ),
+        veripy.convert_to_specio.s(),
 
         # Get the PDF report
-        pdfs.get_report.s(specio_config).on_error(
-            log_error.s(specio_config, inputfilepath)
-        ),
+        pdfs.get_report.s(),
+
+        # Copy the recording to the user's preferred destination
+        fs.copy_recording.s(),
 
         # Write the report to disk
-        fs.write_report.s(specio_config).on_error(
-            log_error.s(specio_config, inputfilepath)
-        ),
+        fs.write_report.s(),
 
         # Release the lock
-        fs.release_lock.si(specio_config, inputfilepath).on_error(
-            log_error.s(specio_config, inputfilepath)
-        ),
+        fs.release_lock.s(),
+
         # Log the completion.
-        completion.si(inputfilepath).on_error(
-            log_error.s(specio_config, inputfilepath)
-        ),
+        completion.s(),
     )
+
     return workflow()

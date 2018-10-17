@@ -5,15 +5,10 @@ import os
 import os.path
 
 from forrest import run
-from forrest.celery import app
 
 
 PIDFILE = 'gump.pid'
 RUN_MODE = os.environ['RUN_MODE'].lower()
-WATCH_MODE, WORKER_MODE = (
-  'watch',
-  'worker',
-)
 
 
 @contextmanager
@@ -36,11 +31,4 @@ def lock():
 
 if __name__ == '__main__':
   with lock():
-    if RUN_MODE == WORKER_MODE:
-      print('Starting Worker')
-      app.worker_main()
-    elif RUN_MODE == WATCH_MODE:
-      print('Initializing File Watching')
-      run.main()
-    else:
-      print('Skipping initialization. Pipelines must be run manually.')
+    run.main(mode=RUN_MODE)
