@@ -1,4 +1,4 @@
-FROM selenium/standalone-chrome:3.13
+FROM selenium/standalone-chrome:3.14
 
 # Do not buffer Python output
 ENV PYTHONUNBUFFERED=1
@@ -11,7 +11,7 @@ RUN sudo apt-get update && sudo apt-get install -y \
   gunicorn3
 
 # Override the supervisor config.
-COPY supervisor.conf /etc/supervisor/conf.d/
+COPY flask.conf /etc/supervisor/conf.d/
 
 # Copy in a custom version of the XVFB start script.
 COPY start-xvfb.sh \

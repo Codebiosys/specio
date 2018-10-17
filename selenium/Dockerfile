@@ -1,4 +1,4 @@
-FROM selenium/standalone-chrome-debug:3.13
+FROM selenium/standalone-chrome-debug:3.14
 # ARG VNC_PASSWORD
 
 # Do not buffer Python output
@@ -12,7 +12,7 @@ RUN sudo apt-get update && sudo apt-get install -y \
   gunicorn3
 
 # Override the supervisor config.
-COPY supervisor.conf /etc/supervisor/conf.d/
+COPY flask.conf /etc/supervisor/conf.d/
 
 # Copy in a custom version of the XVFB start script.
 COPY start-xvfb.sh \
@@ -22,6 +22,3 @@ COPY start-xvfb.sh \
 # Setup the flask app
 RUN pip3 install flask
 COPY server.py /opt/bin/server.py
-
-# Override the default entrypoint.
-COPY dev-entrypoint.sh /opt/bin/entry_point.sh
