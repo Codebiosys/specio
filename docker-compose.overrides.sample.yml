@@ -1,0 +1,17 @@
+version: "3.7"
+
+services:
+
+  specio:
+    volumes:
+      - ./customers:/opt/customers
+      - ../tecbio-mrs-verification/verification:/opt/customers/tecbio
+
+  worker:
+    volumes:
+      - ./customers:/opt/customers
+      - ../tecbio-mrs-verification/verification:/opt/customers/tecbio
+
+  selenium_hub:
+    extra_hosts:
+      tecbio.local: "192.168.99.100"
