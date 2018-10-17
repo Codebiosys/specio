@@ -1,4 +1,4 @@
-FROM selenium/standalone-chrome
+FROM selenium/standalone-chrome:3.13
 
 # Do not buffer Python output
 ENV PYTHONUNBUFFERED=1

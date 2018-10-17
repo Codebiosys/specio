@@ -1,4 +1,4 @@
-FROM selenium/standalone-chrome-debug
+FROM selenium/standalone-chrome-debug:3.13
 # ARG VNC_PASSWORD
 
 # Do not buffer Python output
