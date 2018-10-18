@@ -16,7 +16,6 @@ services:
       - selenium_hub
     volumes:
       - ./dropzone:/opt/dropzone
-      - ./customers:/opt/customers
       - recordings:/opt/recordings
     environment:
       # Uncomment this line to enable file-watch mode.
@@ -44,7 +43,6 @@ services:
       - selenium_hub
     volumes:
       - ./dropzone:/opt/dropzone
-      - ./customers:/opt/customers
       - recordings:/opt/recordings
     environment:
       - RUN_MODE=worker
