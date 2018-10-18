@@ -38,5 +38,4 @@ if [ -z "$CMD" ]; then
   exit -1
 fi
 
-
-docker exec $ID $CMD
+docker exec -i $ID $CMD
