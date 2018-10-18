@@ -10,15 +10,23 @@ version: "3.7"
 services:
 
   specio:
+    environment:
+      - SETUP_DIR=/opt/customers/redcap/features
+      - FIXTURES_DIR=/opt/customers/redcap/fixtures
+      - RESOURCES_DIR=/opt/customers/redcap/resources
+      - REPORTS_DIR=/opt/customers/redcap/reports
     volumes:
       - ./customers:/opt/customers
-      - ../tecbio-mrs-verification/verification:/opt/customers/tecbio
 
   worker:
     volumes:
       - ./customers:/opt/customers
-      - ../tecbio-mrs-verification/verification:/opt/customers/tecbio
 
   selenium_hub:
+    environment:
+      - SETUP_DIR=/opt/customers/redcap/features
+      - FIXTURES_DIR=/opt/customers/redcap/fixtures
+      - RESOURCES_DIR=/opt/customers/redcap/resources
+      - REPORTS_DIR=/opt/customers/redcap/reports
     extra_hosts:
       tecbio.local: "192.168.99.100"
