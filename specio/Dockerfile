@@ -10,7 +10,7 @@
 FROM python:3.6 AS base
 
 # Install VeriPy
-RUN pip install git+https://github.com/Codebiosys/veripy.git@0.2.0#egg=veripy
+RUN pip install git+https://github.com/Codebiosys/veripy.git@0.2.1#egg=veripy
 
 # Install PyDF and a special version of weasyprint
 RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/pydf.git@0.1.0#egg=pydf && \
