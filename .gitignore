@@ -1,6 +1,3 @@
-# Never commit this file. It's for local dev only.
-docker-compose.overrides.yml
-
 # https://raw.githubusercontent.com/github/gitignore/master/Python.gitignore
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -134,3 +131,7 @@ reports/
 
 dropzone/
 !dropzone/.gitkeep
+
+# Never commit this file. It's for local dev only.
+docker-compose.override.yml
+
