@@ -24,6 +24,8 @@ docker-compose logs -f
 
 Specio's pipeline can be run as a complete unit, or you can choose to run the pieces of the pipeline separately.
 
+Specio includes a `specio-cli` script that allows the user to execute arbitrary commands inside of the running Specio containers. Typically this is preferred over the usual `docker-compose run --rm` since creating additional head nodes isn't really expected behavior.
+
 **IMPORTANT** Only the hosts `customers` directory is mounted inside the running containers, so be sure to put anything you need exposed to the containers in that directory.
 
 
@@ -33,7 +35,7 @@ Given that you have a properly configured test config YAML file, and you've put 
 
 
 ```bash
-docker-compose run --rm specio forrest /opt/customers/path/to/config.yml
+./specio-cli forrest /opt/customers/path/to/config.yml
 ```
 
 Once it finishes, you should be able to see the report at the location specified in the configuration YAML.
@@ -49,7 +51,7 @@ Running the pipeline in pieces does result in more work having to be done by the
 The first step is to tell behave to run the tests and collect the results into the `cucumber.json`. To do this, run the following.
 
 ```bash
-docker-compose run --rm specio behave \
+./specio-cli behave \
   -o /opt/customers/path/to/cucumber.json \
   /opt/customers/path/to/features
 ```
@@ -60,7 +62,7 @@ docker-compose run --rm specio behave \
 Once you have a completed `cucumber.json` file, you can convert it into the format expected by the reports generator with the following command:
 
 ```bash
-docker-compose run --rm specio veripy2specio \
+./specio-cli veripy2specio \
   -o /opt/customers/path/to/specio.json \
   -i /opt/customers/path/to/cucumber.json \
 ```
@@ -71,7 +73,7 @@ docker-compose run --rm specio veripy2specio \
 Once you have a converted Specio JSON file, you can generate a report from it like so:
 
 ```bash
-docker-compose run --rm specio pydf \
+./specio-cli pydf \
   --source /opt/customers/path/to/template \
   --params /opt/customers/path/to/specio.json \
   --target /opt/customers/path/to/report.pdf
