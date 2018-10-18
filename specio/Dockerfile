@@ -17,7 +17,7 @@ RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com
     pip install --ignore-installed git+https://github.com/Kozea/WeasyPrint@56904ba#egg=weasyprint
 
 # Install veripy2specio
-RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/veripy2specio.git@0.1.0#egg=veripy2specio
+RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/veripy2specio.git@0.1.1#egg=veripy2specio
 
 # Install dom2fixture
 RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com/Codebiosys/dom2fixture.git@0.1.0#egg=dom2fixture
