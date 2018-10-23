@@ -33,12 +33,13 @@ cucumber_json = 'cucumber.json'
 
 
 veripy_command_template = """\
+SETUP_DIR={cwd}/features \
 RESOURCES_DIR={cwd}/resources \
 REPORTS_DIR={cwd}/reports \
 FIXTURES_DIR={cwd}/fixtures \
 behave \
     --outfile {cwd}/reports/{cucumber_json} \
-    --format veripy.formatters.cucumber_json:PrettyCucumberJSONFormatter \
+    --tag=~configure
     {cwd};
 """
 
