@@ -39,7 +39,7 @@ REPORTS_DIR={cwd}/reports \
 FIXTURES_DIR={cwd}/fixtures \
 behave \
     --outfile {cwd}/reports/{cucumber_json} \
-    --tag=~configure
+    --tags=~configure
     {cwd};
 """
 
