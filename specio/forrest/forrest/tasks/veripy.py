@@ -10,18 +10,6 @@ from ..celery import app
 logger = logging.getLogger(__name__)
 
 
-class VeriPyRunError(Exception):
-    """ An error was encountered while attempting to run VeriPy. """
-    pass
-
-
-class SpecioConversionError(Exception):
-    """ An error was encountered while attempting to convert the VeriPy output
-    to the specio format.
-    """
-    pass
-
-
 # Command Constants
 
 
@@ -38,14 +26,11 @@ RESOURCES_DIR={cwd}/resources \
 REPORTS_DIR={cwd}/reports \
 FIXTURES_DIR={cwd}/fixtures \
 behave \
-    --outfile {cwd}/reports/{cucumber_json} \
-    --tag=~configure
+    --outfile={cwd}/reports/{cucumber_json} \
+    --format veripy.formatters.cucumber_json:PrettyCucumberJSONFormatter \
+    --outfile=- \
+    --format plain \
     {cwd};
-"""
-
-
-specio_conversion_command = f"""\
-veripy2specio -o {specio_json} {cucumber_json};
 """
 
 

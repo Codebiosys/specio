@@ -24,6 +24,9 @@ RUN pip install git+https://41125aab2214caa4fab5be0cb5dddb5fa96739a9:@github.com
 # Do not buffer Python output
 ENV PYTHONUNBUFFERED=1
 
+# Copy the behave.ini config into the root home directory
+COPY behave.ini /root/
+
 #
 # Development multi-stage target
 #
