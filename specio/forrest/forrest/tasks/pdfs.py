@@ -23,6 +23,11 @@ def get_report(kwargs):
     # Unpack results
     run_config, specio_results = kwargs['run_config'], kwargs['specio_results']
 
+    params = {
+        **run_config.get('report_params', {}),
+        **specio_results,
+    }
+
     with open(run_config['template'], 'rb') as source_fp:
         tmp_dir = None          # temporary directory to extract files into
         index_fp = source_fp    # Index template file
@@ -45,7 +50,7 @@ def get_report(kwargs):
         os.chdir(os.path.dirname(index_fp.name))
 
         try:
-            report_blob = template_to_pdf(index_fp, params=specio_results)
+            report_blob = template_to_pdf(index_fp, params=params)
         finally:
             # Ensure we cleanup after ourselves if there was a failure
             if tmp_dir:
