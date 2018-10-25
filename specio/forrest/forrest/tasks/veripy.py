@@ -17,8 +17,8 @@ class Subtitle(object):
 
     SRT_TIME = '{hour}:{min}:{sec},{milli}'
 
-    def __init__(self, entry_no, start_time, end_time, text):
-        self.entry_no = entry_no
+    def __init__(self, entry_number, start_time, end_time, text):
+        self.entry_number = entry_number
         self.start_time = start_time
         self.end_time = end_time
         self.text = text
@@ -34,7 +34,7 @@ class Subtitle(object):
         text = self.text.strip()
 
         return (
-            f'{self.entry_no}\n'
+            f'{self.entry_number}\n'
             f'{self.format_td(self.start_time)} --> {self.format_td(self.end_time)}\n'
             f'{text}\n\n'
         )
@@ -113,13 +113,13 @@ def veripy(kwargs):
             now = datetime.fromtimestamp(time()) - suite_starttime
 
             # Create a new entry for the current line and save it for later.
-            entry_no, start = (
+            entry_number, start = (
                 (0, previous_subtitle.end_time)
                 if previous_subtitle
                 else (0, timedelta(seconds=0))
             )
             previous_subtitle = Subtitle(
-                entry_no + 1,
+                entry_number + 1,
                 start,
                 now,
                 line
