@@ -1,6 +1,9 @@
+from collections import namedtuple
 import logging
 import json
 from subprocess import Popen, PIPE
+from time import gmtime, time, strftime
+from datetime import datetime, timedelta
 
 from veripy2specio.transforms import Veripy2SpecioTransform
 
@@ -8,6 +11,33 @@ from ..celery import app
 
 
 logger = logging.getLogger(__name__)
+
+
+class Subtitle(object):
+
+    SRT_TIME = '{hour}:{min}:{sec},{milli}'
+
+    def __init__(self, entry_no, start_time, end_time, text):
+        self.entry_no = entry_no
+        self.start_time = start_time
+        self.end_time = end_time
+        self.text = text
+
+    def format_td(self, td):
+        hours, remainder = divmod(td.total_seconds(), 3600)
+        minutes, seconds = divmod(remainder, 60)
+        milliseconds = td.microseconds / 1000
+
+        return f'{int(hours)}:{int(minutes)}:{int(seconds)},{int(milliseconds)}'
+
+    def __str__(self):
+        text = self.text.strip()
+
+        return (
+            f'{self.entry_no}\n'
+            f'{self.format_td(self.start_time)} --> {self.format_td(self.end_time)}\n'
+            f'{text}\n\n'
+        )
 
 
 # Command Constants
@@ -59,15 +89,45 @@ def veripy(kwargs):
         cwd=cwd,
     )
 
+    suite_starttime = datetime.fromtimestamp(kwargs['video_starttime'])
+    previous_subtitle = None
+    record_subtitles = False
+    subtitles_filename = kwargs['video_location'] + '.srt'
+
     # Run VeriPy with the given features.
     #
     # NOTE: We chose to use Popen rather than a simpler API because the
     # connection allows us to progressively iterate over stdout/stderr while
     # the program is running.
     logger.debug(f'Running VeriPy in {cwd}')
-    with Popen(command, **cmd_kwargs) as connection:
+    with Popen(command, **cmd_kwargs) as connection, open(subtitles_filename, 'w') as subtitles:
         for line in connection.stdout:
             logger.info(line)
+
+            # Don't record the junk that comes before the features, wait for
+            # behave to get started
+            record_subtitles = record_subtitles or 'Feature' in line
+            if not record_subtitles:
+                continue
+
+            now = datetime.fromtimestamp(time()) - suite_starttime
+
+            # Add the enddate to the previous entry and write it to the file.
+            if previous_subtitle:
+                subtitles.write(str(previous_subtitle))
+
+            # Create a new entry for the current line and save it for later.
+            entry_no, start = (
+                (0, previous_subtitle.end_time)
+                if previous_subtitle
+                else (0, timedelta(seconds=0))
+            )
+            previous_subtitle = Subtitle(
+                entry_no + 1,
+                start,
+                now,
+                line
+            )
 
         for line in connection.stderr:
             logger.info(line)
@@ -79,6 +139,7 @@ def veripy(kwargs):
         return {
             **kwargs,
             'veripy_results': json.load(f),
+            'subtitles_file': subtitles_filename,
         }
 
 

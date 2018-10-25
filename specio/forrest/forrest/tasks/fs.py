@@ -130,6 +130,16 @@ def copy_recording(kwargs):
     return kwargs
 
 
+@app.task
+def copy_subtitles(kwargs):
+    location, run_config = kwargs['subtitles_file'], kwargs['run_config']
+    recording_location = run_config["recording_output"]
+
+    logger.info(f'Attempting to copy test subtitles.')
+    shutil.copy(location, f'{recording_location}.srt')
+    return kwargs
+
+
 # Validation Tasks
 
 

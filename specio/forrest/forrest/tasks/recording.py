@@ -1,3 +1,4 @@
+import time
 import logging
 
 import requests
@@ -35,6 +36,7 @@ def start_recording(kwargs):
         **kwargs,
         'session_id': result['session_id'],
         'video_location': result['output'],
+        'video_starttime': time.time(),
     }
 
 

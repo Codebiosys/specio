@@ -85,8 +85,9 @@ def pipeline(specio_config, inputfilepath):
         # Get the PDF report
         pdfs.get_report.s(),
 
-        # Copy the recording to the user's preferred destination
+        # Copy the recording and the subtitles to the user's preferred destination
         fs.copy_recording.s(),
+        fs.copy_subtitles.s(),
 
         # Write the report to disk
         fs.write_report.s(),
