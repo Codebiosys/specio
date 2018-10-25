@@ -112,10 +112,6 @@ def veripy(kwargs):
 
             now = datetime.fromtimestamp(time()) - suite_starttime
 
-            # Add the enddate to the previous entry and write it to the file.
-            if previous_subtitle:
-                subtitles.write(str(previous_subtitle))
-
             # Create a new entry for the current line and save it for later.
             entry_no, start = (
                 (0, previous_subtitle.end_time)
@@ -128,6 +124,7 @@ def veripy(kwargs):
                 now,
                 line
             )
+            subtitles.write(str(previous_subtitle))
 
         for line in connection.stderr:
             logger.info(line)
