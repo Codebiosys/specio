@@ -1,8 +1,7 @@
-from collections import namedtuple
 import logging
 import json
 from subprocess import Popen, PIPE
-from time import gmtime, time, strftime
+from time import time
 from datetime import datetime, timedelta
 
 from veripy2specio.transforms import Veripy2SpecioTransform
