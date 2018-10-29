@@ -113,7 +113,7 @@ def veripy(kwargs):
 
             # Create a new entry for the current line and save it for later.
             entry_number, start = (
-                (0, previous_subtitle.end_time)
+                (previous_subtitle.entry_number, previous_subtitle.end_time)
                 if previous_subtitle
                 else (0, timedelta(seconds=0))
             )
