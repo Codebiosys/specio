@@ -63,6 +63,12 @@ class Configuration(object):
         (('-i', '--input',),
          dict(type=str,
               help='The location of the input file. (To specify stdin use \'-\')')),
+
+        (('-d', '--debug',),
+         dict(action='store_true',
+              help='Run Specio in Debug Mode. This will run all tasks on the head '
+                   'node instead of on the cluster. This can help with debugging '
+                   'because exceptions are more easily captured in local mode.')),
     )
 
     def __init__(self):
