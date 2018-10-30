@@ -5,6 +5,7 @@ import yaml
 
 from watchdog.observers.polling import PollingObserver
 
+from .celery import app
 from .configuration import Configuration
 from .handlers import SpecioEventHandler
 from .tasks import pipeline
@@ -25,6 +26,16 @@ def setup_logging(config):
         logging_config = yaml.load(f)
 
     logging.config.dictConfig(logging_config)
+
+
+def setup_celery(config):
+    if not config.debug:
+        # Do nothing.
+        return
+
+    logger.info('Starting Celery in debug mode. All tasks will execute locally.')
+    app.conf.task_always_eager = True
+    app.conf.task_eager_propagates = True
 
 
 def get_event_handler(config):
@@ -51,12 +62,12 @@ def main(mode=PLAIN_MODE, run_once=False):
     """ A method that watches files for changes and runs the full pipline. """
     config = Configuration()
     setup_logging(config)
+    setup_celery(config)
 
     logger.info('Welcome to Specio!')
 
     # Start the app as a worker
     if mode == WORKER_MODE:
-        from .celery import app
         app.worker_main()
 
     # Watch for file changes
