@@ -69,6 +69,9 @@ class Configuration(object):
               help='Run Specio in Debug Mode. This will run all tasks on the head '
                    'node instead of on the cluster. This can help with debugging '
                    'because exceptions are more easily captured in local mode.')),
+        (('--no-video',),
+         dict(action='store_true',
+              help='Don\'t record video for the test run.')),
     )
 
     def __init__(self):

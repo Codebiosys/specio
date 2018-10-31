@@ -12,6 +12,43 @@ from ..celery import app
 logger = logging.getLogger(__name__)
 
 
+class SubtitlesCamera(object):
+
+    def __init__(self, video_location, starttime):
+        self.previous_subtitle = None
+        self.record_subtitles = False
+        self.subtitles_filename = f'{video_location}.srt'
+        self.starttime = datetime.fromtimestamp(starttime)
+
+        self.subtitles = open(self.subtitles_filename, 'w')
+
+    def capture(self, line):
+        # Don't record the junk that comes before the features, wait for
+        # behave to get started
+        self.record_subtitles = self.record_subtitles or 'Feature' in line
+        if not self.record_subtitles:
+            return
+
+        now = datetime.fromtimestamp(time()) - self.starttime
+
+        # Create a new entry for the current line and save it for later.
+        entry_number, start = (
+            (self.previous_subtitle.entry_number, self.previous_subtitle.end_time)
+            if self.previous_subtitle
+            else (0, timedelta(seconds=0))
+        )
+        self.previous_subtitle = Subtitle(
+            entry_number + 1,
+            start,
+            now,
+            line
+        )
+        self.subtitles.write(str(self.previous_subtitle))
+
+    def close(self):
+        self.subtitles.close()
+
+
 class Subtitle(object):
 
     SRT_TIME = '{hour}:{min}:{sec},{milli}'
@@ -88,10 +125,8 @@ def veripy(kwargs):
         cwd=cwd,
     )
 
-    suite_starttime = datetime.fromtimestamp(kwargs['video_starttime'])
-    previous_subtitle = None
-    record_subtitles = False
-    subtitles_filename = kwargs['video_location'] + '.srt'
+    if not kwargs['specio_config']['no_video']:
+        camera = SubtitlesCamera(kwargs['video_location'], kwargs['video_starttime'])
 
     # Run VeriPy with the given features.
     #
@@ -99,31 +134,12 @@ def veripy(kwargs):
     # connection allows us to progressively iterate over stdout/stderr while
     # the program is running.
     logger.debug(f'Running VeriPy in {cwd}')
-    with Popen(command, **cmd_kwargs) as connection, open(subtitles_filename, 'w') as subtitles:
+    with Popen(command, **cmd_kwargs) as connection:
         for line in connection.stdout:
             logger.info(line)
 
-            # Don't record the junk that comes before the features, wait for
-            # behave to get started
-            record_subtitles = record_subtitles or 'Feature' in line
-            if not record_subtitles:
-                continue
-
-            now = datetime.fromtimestamp(time()) - suite_starttime
-
-            # Create a new entry for the current line and save it for later.
-            entry_number, start = (
-                (previous_subtitle.entry_number, previous_subtitle.end_time)
-                if previous_subtitle
-                else (0, timedelta(seconds=0))
-            )
-            previous_subtitle = Subtitle(
-                entry_number + 1,
-                start,
-                now,
-                line
-            )
-            subtitles.write(str(previous_subtitle))
+            if not kwargs['specio_config']['no_video']:
+                camera.capture(line)
 
         for line in connection.stderr:
             logger.info(line)
@@ -132,11 +148,16 @@ def veripy(kwargs):
 
     # Parse the output and exit.
     with open(f'{cwd}/reports/{cucumber_json}') as f:
-        return {
+        kwargs = {
             **kwargs,
             'veripy_results': json.load(f),
-            'subtitles_file': subtitles_filename,
         }
+
+    if not kwargs['specio_config']['no_video']:
+        camera.close()
+        kwargs['subtitles_file'] = camera.subtitles_filename
+
+    return kwargs
 
 
 @app.task

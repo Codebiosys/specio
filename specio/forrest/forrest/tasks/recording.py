@@ -22,6 +22,10 @@ STOP_ENDPOINT = f'{RECORDING_SERVICE}/stop'
 
 @app.task
 def start_recording(kwargs):
+    if kwargs['specio_config']['no_video']:
+        # Don't create a video.
+        return kwargs
+
     response = requests.post(START_ENDPOINT)
     response.raise_for_status()
 
@@ -42,6 +46,10 @@ def start_recording(kwargs):
 
 @app.task
 def stop_recording(kwargs):
+    if kwargs['specio_config']['no_video']:
+        # Don't create a video.
+        return kwargs
+
     response = requests.post(STOP_ENDPOINT, dict(
         session_id=kwargs['session_id'],
     ))

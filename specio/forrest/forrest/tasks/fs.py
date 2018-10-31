@@ -123,6 +123,10 @@ def write_report(kwargs):
 
 @app.task
 def copy_recording(kwargs):
+    if kwargs['specio_config']['no_video']:
+        # No video was created. Skip.
+        return kwargs
+
     location, run_config = kwargs['video_location'], kwargs['run_config']
 
     logger.info(f'Attempting to copy test recording.')
@@ -132,6 +136,10 @@ def copy_recording(kwargs):
 
 @app.task
 def copy_subtitles(kwargs):
+    if kwargs['specio_config']['no_video']:
+        # No video was created. Skip.
+        return kwargs
+
     location, run_config = kwargs['subtitles_file'], kwargs['run_config']
     recording_location = run_config["recording_output"]
 
