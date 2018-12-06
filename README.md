@@ -3,7 +3,14 @@
 *A programmatic continuous validation service for humans.*
 
 
-# Running Specio
+# What is Specio?
+
+Specio is a continuous verification system. It's like CI but for non-programmers. Specio turns plain english tests into an easy-to-read report complete with explanations of what tests passed and failed, as well as a video recording of the software being automatically validated.
+
+All you need to get started is a Gherkin test suite and the instructions below.
+
+
+# Installing and Running Specio
 
 In order to install Specio, clone this repo and run the following command to boot the system.
 

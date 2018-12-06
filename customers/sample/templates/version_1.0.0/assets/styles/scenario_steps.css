@@ -1,0 +1,225 @@
+#organziation-logo {
+  height: auto;
+  width: 3in;
+}
+
+.section-header {
+  display: grid;
+  width: 100%;
+}
+
+.section-header > div {
+  display: block;
+}
+
+.section-header .result {
+  float: right;
+}
+
+.scenario-tags {
+  line-height: 14pt;
+}
+
+.background-step::first-letter {
+  text-transform: uppercase;
+}
+
+table.scenarios {
+  border-top: solid 1pt #333;
+  border-collapse: collapse;
+  font-size: 9pt !important;
+  width: 6.9in;
+}
+
+table.scenarios tfoot {
+  border-top: 1px;
+}
+
+table.scenarios thead th, table.scenarios tbody tr > td,
+table.scenarios thead th, table.scenarios tbody tr > th
+ {
+  border: solid 1pt #333;
+  border-top: 0px;
+  border-bottom: 0px;
+  padding: 0.25em 0.5em;
+}
+
+table.scenarios th {
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+}
+
+table.scenarios th.scenario-step-col {
+  width: 0.25in;
+}
+
+table.scenarios th.scenario-instruction-col {
+  width: 1.75in;
+}
+
+table.scenarios th.scenario-expected-result-col {
+  width: 1.75in;
+}
+table.scenarios th.scenario-actual-result-col {
+  width: 1.75in;
+}
+table.scenarios th.scenario-pass-col {
+  width: 0.5in;
+}
+
+table.scenarios td  {
+  vertical-align: top;
+}
+
+table.scenarios h4 {
+  margin-top: 0.5ex;
+}
+
+
+table.scenarios td.instructions {
+  border-right: 0px;
+}
+table.scenarios td.all-results {
+  border-left: 0px;
+  width: 3.5in;
+}
+table.scenarios td.all-results>table {
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+table.scenarios td.all-results>table td {
+  width: 50%;
+  margin: 0px;
+  padding: 0px;
+  border: 0px;
+}
+
+ table.scenarios p.note {
+  padding-left: 1em;
+  font-style: italic
+}
+
+table.scenarios tr.scenario-summary > td {
+  border-top: 1px solid black;
+}
+
+table.scenarios tr:last-child > td {
+  border-bottom: 1px solid black;
+}
+
+
+td.step-number {
+  text-align: center;
+  font-size: 10pt;
+}
+
+ td.pass-fail {
+  text-align: center;
+  font-size: 11pt;
+  text-transform: capitalize;
+  padding-top: 2em;
+}
+
+ .passed, .Passed {
+  color: green;
+}
+
+.failed, .Failed {
+  color: red;
+}
+
+.skipped, .Skipped, .undefined, .Undefined {
+  color: orange;
+}
+
+.reference-links {
+  vertical-align: sub;
+  font-size: 7pt;
+  color: blue
+}
+
+.reference-number  {
+  font-size: 8pt;
+  color: blue
+}
+
+table.scenarios dd {
+  margin: 0em;
+  margin-left: 1em;
+  padding: 0.5em;
+  padding-left: 1em;
+}
+
+table.scenarios ul,
+table.summary ul {
+  list-style: none;
+  padding: 0pt;
+}
+
+table.scenarios ul li {
+  color: inherit;
+}
+
+
+ table.scenarios td.actual-results ul li.passed::before,
+ table.scenarios td.actual-results ul li.Passed::before,
+ table.summary ul li.Passed::before,
+ table.summary ul li.passed::before {
+  content: '\2713';
+  color: green;
+  font-size: 11pt;
+}
+
+table.scenarios ul li.skipped::before,
+table.scenarios ul li.Skipped::before,
+table.scenarios ul li.undefined::before,
+table.scenarios ul li.Undefined::before,
+table.summary ul li.skipped::before,
+table.summary ul li.Skipped::before,
+table.summary ul li.undefined::before,
+table.summary ul li.Undefined::before
+
+ {
+  content: '\00021';
+  color: orange;
+  font-size: 11pt;
+}
+
+table.scenarios ul li.failed::before,
+table.scenarios ul li.Failed::before
+table.summary ul li.failed::before,
+table.summary ul li.Failed::before {
+  content: '\2717';
+  color: red;
+  font-size: 11pt;
+}
+
+ table.scenarios sub {
+  font-size: 8pt;
+  color: blue;
+}
+
+.screencapture {
+  width: 6in;
+  border: solid blue 1pt;
+}
+
+.result-sentence::first-letter {
+  text-transform: uppercase;
+}
+
+ul.condensed {
+  margin: 0px;
+}
+
+.attachment {
+  page-break-inside: avoid;
+}
+/* Oh my does this slow things down
+
+ tbody {
+  page-break-inside: avoid;
+} */

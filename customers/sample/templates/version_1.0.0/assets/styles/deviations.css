@@ -1,0 +1,160 @@
+.deviation-page, .conclusion-page {
+  width: 100%;
+  position: absolute;
+  top: 0px;
+  bottom: 20px;
+}
+
+.deviation-header, .conclusion-header {
+  display: block;
+  padding-bottom: 0.25in;
+}
+table.deviation, table.conclusion {
+  border: solid 1pt #333;
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  bottom: 20px
+}
+
+table.summary, table.summary tr, table.summary th, table.summary td {
+  border: solid 1pt #333;
+  border-collapse: collapse;
+  width: 100%;
+  height: 100%;
+}
+
+
+
+table.deviation>thead>tr, table.deviation>tbody>tr, table.conclusion tr {
+  width: 100%;
+  border: 1px solid black
+}
+
+table.deviation tr.explanation {
+  height: 30%;
+}
+table.deviation tr.resolution {
+  height: 35%;
+}
+table.conclusion tr.comments {
+  height: 55%;
+}
+
+table.deviation tr.signatures > td, table.conclusion tr.signatures > td  {
+  border: 0px;
+}
+
+table.deviation tr>th, table.deviation tr>td , table.conclusion tr > * {
+  border: solid 1pt #333;
+  padding: 0.25em 0.5em;
+}
+
+table.deviation td, table.conclusion tr > *  {
+  vertical-align: top;
+}
+
+table.deviation dl, table.conclusion dl  {
+  margin: 0pt;
+  padding: 0pt;
+}
+
+table.deviation dd, table.conclusion dd {
+  margin: 0em;
+  margin-left: 1em;
+  padding: 0.125in;
+  padding-left: 1em;
+}
+
+
+table.deviation ul {
+  list-style: none;
+  padding: 0pt;
+}
+
+table.deviation ul li {
+  color: inherit;
+}
+
+table.deviation ul li.skipped::before {
+  content: '! ';
+  color: orange;
+  font-size: 11pt;
+}
+
+table.deviation ul li.passed::before {
+  content: '✓';
+  color: green;
+  font-size: 11pt;
+}
+
+table.deviation ul li.failed::before {
+  content: '✗';
+  color: red;
+  font-size: 11pt;
+}
+
+table.deviation sub {
+  font-size: 8pt;
+  color: blue;
+}
+
+table.deviation tr.signatures dd {
+  padding: 1em;
+}
+
+table.conclusion tr.signatures td, table.conclusion tr.signatures th {
+  padding: 1em;
+}
+table.conclusion tr.signatures th {
+  width: 1in;
+  background-color: #ddd;
+}
+
+table.conclusion td.yesno {
+  font-size: 16pt;
+  vertical-align: middle;
+  text-align: center;
+}
+
+tr.explanation table.explanation,
+tr.explanation table.explanation tr,
+tr.explanation table.explanation th,
+tr.explanation table.explanation td
+ {
+  border: solid 1pt #ddd;
+  border-collapse: collapse;
+}
+
+table.explanation, table.explanation tr:first-child th {
+  border-top: 0;
+}
+table.explanation, table.explanation tr:last-child td {
+  border-bottom: 0;
+}
+table.explanation, table.explanation tr td:first-child,
+table.explanation tr th:first-child {
+  border-left: 0;
+}
+table.explanation, table.explanation tr td:last-child,
+table.explanation tr th:last-child {
+  border-right: 0;
+}
+
+tr.explanation table.explanation td
+ {
+  padding: 1ex;
+}
+
+.circle {
+    display: block;
+    width: 0.45in;
+    height: 0.45in;
+    line-height: 0.45in;
+    border-radius: 50%;
+    border: 1px solid #333;
+    vertical-align: middle;
+    text-align: center;
+    margin: auto;
+}

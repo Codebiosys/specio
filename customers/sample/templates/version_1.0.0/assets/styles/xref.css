@@ -1,0 +1,68 @@
+
+.toc {
+  display: table;
+  width: auto;
+  margin-left: 0in;
+  margin-right: 0in;
+}
+.toc .line {
+    display: table-row;
+    width: 100%;
+    padding-top: 2ex;
+    line-height: 0.25in;
+}
+
+.toc .line .toc-title {
+  display: table-cell;
+  white-space: normal;
+  padding-left: 1em;
+  padding-right: 1em;
+  overflow-y: visible;
+  overflow-x: hidden;
+  width: 5in;
+  border-bottom: 1px dotted black;
+}
+
+.toc .line.line-section .toc-title {
+    padding-left: 2em;
+    vertical-align: bottom;
+
+}
+.toc .line.line-section .toc-title > * {
+    vertical-align: bottom;
+    margin-bottom: -1ex;
+}
+
+.toc .line .toc-divider {
+  display: table-cell;
+  border-bottom: 1px dotted black;
+  width: 100%;
+}
+
+
+.toc .line .toc-page {
+  display: table-cell;
+  width: 10%;
+  white-space: nowrap;
+  padding-left: 1em;
+  padding-right: 1em;
+  vertical-align: bottom;
+  margin-bottom: -1ex;
+}
+
+.toc a {
+  text-decoration: none;
+  color: black;
+}
+
+.toc a::after {
+  content: " " target-counter(attr(href), page);
+}
+
+a.xref {
+  text-decoration: none;
+}
+
+a.xref:after {
+  content: " - " target-counter(attr(href, url), page);
+}

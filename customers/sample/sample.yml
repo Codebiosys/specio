@@ -1,0 +1,7 @@
+# This is a sample configuration.
+# Drag me into the ./dropzone to watch me go!
+
+input: /opt/customers/sample
+output: /opt/customers/sample/pdfs/version_1.0.0_report.pdf
+template: /opt/customers/sample/templates/version_1.0.0/template.mustache
+recording_output: /opt/customers/sample/pdfs/result.mpeg
