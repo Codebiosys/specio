@@ -1,0 +1,138 @@
+<section>
+  <div class="section-header">
+    {{ #has_scenarios }}
+    <div class="result {{status}}">
+      {{status}}
+    </div>
+    {{ /has_scenarios }}
+    <h2 id="{{ id }}">
+      Test Case {{ feature_number }}: <span class="title">{{ name }}</span>
+    </h2>
+    {{ ^has_scenarios }}
+    <span class="chapter" style="visibility: hidden">Test Case {{ feature_number }}</span>
+    {{ /has_scenarios }}
+  </div>
+  {{{ description }}}
+
+  {{ #has_scenarios }}
+  <h3>Test Purpose</h3>
+  <p>The purpose of this test is to verify functional requirement(s):
+    <blockquote>
+      {{ #scenario_tags }}
+      <em>{{ name }}</em>{{ ^last }},&nbsp;{{ /last }}
+      {{ /scenario_tags }}
+    </blockquote>
+  </p>
+  {{ /has_scenarios }}
+
+  {{ #test.method }}
+  <h3>Test Method</h3>
+  <p>{{ . }}</p>
+  {{ /test.method }}
+
+  <h3>Prerequisites</h3>
+  <ul>
+    {{ #global_prerequisites }}
+    <li>{{ name }}</li>
+    {{ /global_prerequisites }}
+  </ul>
+
+    {{ #has_prerequisite_scripts }}
+    <h4>Completed Test Scripts</h4>
+    <ul>
+      {{ #prerequisite_scripts }}
+      <li> {{ name }} (<a class="xref" href="#{{ id }}">Page</a></span>)
+        {{ #description }}
+        {{{ . }}}
+        {{ /description }}
+      </li>
+      {{ /prerequisite_scripts }}
+    </ul>
+    {{ /has_prerequisite_scripts}}
+    {{ #has_prerequisites }}
+    <h4>Actions completed before each Step</h4>
+      <ul>
+        {{ #prerequisites }}
+        <li>{{ name }}
+          {{{ #scenario_description }}}
+          <ul>
+            {{ #instructions_results }}
+            {{ #instructions }}
+            <li class="background-step">{{ name }}</li>
+            {{ /instructions }}
+            {{ #results }}
+            <li class="background-step">{{ name }}</li>
+            {{ /results }}
+            {{ /instructions_results }}
+          </ul>
+        </li>
+        {{ /prerequisites }}
+      </ul>
+
+    {{ /has_prerequisites }}
+
+
+  {{ #has_scenarios }}
+  <h3>Test Steps</h3>
+  <span id="toc_{{id}}_step" class="chapter" style="font-size: 1pt; visibility: hidden">Test Case {{ feature_number }} - Test Steps</span>
+
+  <table class="table scenarios">
+    <thead>
+      <tr>
+        <th class="scenario-step-col">
+          Step
+        </th>
+        <th class="scenario-instruction-col">
+          Instructions
+        </th>
+        <th class="scenario-expected-result-col">
+          Expected Result
+        </th>
+        <th class="scenario-actual-result-col">
+          Actual Result
+        </th>
+        <th class="scenario-pass-col">
+          Pass/Fail
+        </th>
+      </tr>
+    </thead>
+    <tfoot>
+    </tfoot>
+    {{ #scenarios }}
+    {{> scenario }}
+    {{ /scenarios }}
+  </table>
+  {{ /has_scenarios }}
+</section>
+{{ #has_deviations }}
+<span id="toc_{{ id }}_dev">
+  {{ #scenarios }}
+  {{ #deviation }}
+  <section>
+    <span class="chapter" style="visibility: hidden; font-size: 1px">Test Case {{ feature_number }} - Deviations </span>
+    {{> deviation }}
+  </section>
+  {{ /deviation }}
+  {{ /scenarios }}
+  {{ /has_deviations }}
+</span>
+{{ #has_attachments }}
+<span id="toc_{{ id }}_fig">
+  <section>
+    <span class="chapter" style="visibility: hidden; font-size: 1px">Test Case {{ feature_number }} - Figures </span>
+    {{ #scenarios }}
+    {{ #instructions_results }}
+    {{ #attachments }}
+    {{> attachment }}
+    {{ /attachments }}
+    {{ /instructions_results }}
+    {{ /scenarios }}
+  </section>
+</span>
+{{ /has_attachments }}
+<span id="toc_{{ id }}_sum">
+  <section>
+    <span class="chapter" style="visibility: hidden; font-size: 1px">Test Case {{ feature_number }} - Summary </span>
+    {{> conclusion }}
+  </section>
+</span>

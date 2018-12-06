@@ -1,0 +1,71 @@
+<div>
+  <div class="section-header">
+    <h2 id="{{ id }}">
+      Setup Script: <span class="title">{{ name }}</span>
+    </h2>
+    <span class="chapter" style="visibility: hidden">Setup Script</span>
+  </div>
+  {{{ description }}}
+  {{ #has_setup }}
+  <h3>Setup Steps</h3>
+  <ul>
+    {{ #scenarios }}
+      {{ #is_setup }}
+      <li>{{ name }}
+      {{{ scenario_description }}}
+      {{ #table }}
+        <br/>The following Data was used:
+          <table style="margin: 1ex; border: solid 1px #ddd; width: 100%; border-collapse: collapse">
+            <thead>
+              <tr>
+                {{ #headers }}
+                  <th style="border: solid 1px #ddd; padding: 1ex;" > {{ . }} </th>
+                  {{ /headers }}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                {{ #rows }}
+                <tr>
+                  {{ #data }}<td style="border: solid 1px #ddd; padding: 1ex;">{{ . }}</td>{{ /data }}
+              </tr>
+              {{ /rows }}
+            </tr>
+          </table>
+      {{ /table }}
+      </li>
+        {{ /is_setup }}
+      {{ /scenarios }}
+  </ul>
+  {{ /has_setup }}
+  {{ #has_teardown }}
+  <h3>Teardown Steps</h3>
+  <ul>
+    {{ #scenarios }}
+      {{ #is_teardown }}
+      <li>{{ name }}
+      {{{ scenario_description }}}
+      {{ #table }}
+        <br/>The following Data was used:
+          <table style="border: solid 1px #ddd; width: 100%; border-collapse: collapse" >
+            <thead>
+              <tr>
+                {{ #headers }}
+                  <th style="border: solid 1px #ddd; padding: 1ex;"> {{ . }} </th>
+                  {{ /headers }}
+              </tr>
+            </thead>
+            <tbody>
+              {{ #rows }}
+              <tr>
+                {{ #data }}<td style="border: solid 1px #ddd; padding: 1ex;">{{ . }}</td>{{ /data }}
+            </tr>
+            {{ /rows }}
+          </table>
+      {{ /table }}
+      </li>
+        {{ /is_teardown }}
+      {{ /scenarios }}
+  </ul>
+  {{ /has_teardown }}
+</div>

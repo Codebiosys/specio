@@ -1,0 +1,34 @@
+  <tbody>
+    <tr class="scenario-summary">
+      <td class="step-number">
+        <strong>{{ scenario_number }}</strong>
+      </td>
+      <td colspan=3>
+        <h4>{{ name }}</h4>
+        <p>{{{ scenario_description }}}</p>
+        Functional Requirements:
+        <em>{{ #tags }}
+        {{ name }}{{ ^ last }}, {{ /last }}
+      {{ /tags }}
+      {{ ^tags }}
+      No Requirement Specified
+      {{ /tags }}
+      </em>
+      {{ #deviation }}
+        <p><span class="{{ status }}">Deviation {{ deviation_number }}</span> - <a class="xref" href="#dev_{{ id }}">page</a><p>
+      {{ /deviation }}
+      <hr />
+      </td>
+      <td class="pass-fail">
+        {{ #passed }}
+        <strong class="passed">Passed</strong>
+        {{ /passed }}
+        {{ ^passed }}
+        <strong class="failed">Failure</strong>
+        {{ /passed }}
+      </td>
+    </tr>
+    {{ #instructions_results }}
+    {{> step }}
+    {{ /instructions_results }}
+  </tbody>

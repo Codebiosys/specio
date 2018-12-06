@@ -1,0 +1,13 @@
+<div class="attachment">
+  <h3 id="fig_{{ id }}">
+    Test Case {{ feature_number }} -
+    Step {{ scenario_number }} -
+    Figure {{ figure_number }}
+    <span class="result {{ status }}">{{ status }}</span>
+  </h3>
+  <p>Test Step: {{ scenario_name }}</p>
+  <figure>
+    <img class="screencapture" src="data:{{ type }};base64,{{ data }}" />
+    <figcaption>Figure {{ figure_number }}</figcaption>
+  </figure>
+</div>

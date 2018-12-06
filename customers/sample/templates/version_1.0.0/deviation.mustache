@@ -1,0 +1,96 @@
+<div class="deviation-page">
+  <div class="deviation-header">
+    <h3 id="dev_{{ id }}"> Deviation Report Form - Issue No. {{ deviation_number }}</h3>
+    <p>Test Case: {{ feature_name }}</p>
+    <p>Test Case {{ feature_number }} -
+        Step {{ scenario_number }}
+    </p>
+  </div>
+  <table class="deviation">
+    <tbody>
+      <tr class="explanation">
+        <td colspan="3">
+          <dl>
+            <dt>Scenario <span class="{{status}}">{{status}}</span></dt>
+            <dd>{{ scenario_name }} </dd>
+          </dl>
+          <table class="explanation">
+            <thead>
+              <tr>
+                <th>
+                  Expected
+                </th>
+                <th>
+                  Actual
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ #errors }}
+              <tr>
+                <td >
+                  {{ expected }}
+                </td>
+                <td >
+                  {{ actual }}
+                    {{ #attachment_reference_id }}
+                      <a class="xref" href="#fig_{{ . }}">page</a>
+                    {{ /attachment_reference_id }}
+                </td>
+              </tr>
+              {{ /errors }}
+            </tbody>
+            </table>
+        </td>
+      </tr>
+      <tr class="resolution">
+        <td colspan="3">
+          <dl>
+            <dt>Resolution</dt>
+            <dd>&nbsp;</dd>
+          </dl>
+        </td>
+      </tr>
+      <tr class="signatures">
+        <td>
+          <dl>
+            <dt>Prepared By</dt>
+            <dd>&nbsp;</dd>
+          </dl>
+        </td>
+        <td>
+          <dl>
+            <dt>Signature</dt>
+            <dd>&nbsp;</dd>
+          </dl>
+        </td>
+        <td>
+          <dl>
+            <dt>Date</dt>
+            <dd>&nbsp;</dd>
+          </dl>
+        </td>
+      </tr>
+      <tr class="signatures">
+        <td>
+          <dl>
+            <dt>Approved By</dt>
+            <dd>&nbsp;</dd>
+          </dl>
+        </td>
+        <td>
+          <dl>
+            <dt>Signature</dt>
+            <dd>&nbsp;</dd>
+          </dl>
+        </td>
+        <td>
+          <dl>
+            <dt>Date</dt>
+            <dd>&nbsp;</dd>
+          </dl>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>{{ organization.name }}</title>
+  <link rel="stylesheet" type="text/css" href="./assets/styles/page.css" />
+  <link rel="stylesheet" type="text/css" href="./assets/styles/scenario_steps.css" />
+  <link rel="stylesheet" type="text/css" href="./assets/styles/deviations.css" />
+  <link rel="stylesheet" type="text/css" href="./assets/styles/xref.css" />
+
+  <meta charset="UTF-8">
+  <style>
+    @page {
+      @top-left {
+        background-image: url({{ organization.logo }});
+      }
+    }
+  </style>
+</head>
+<body>
+  <section>
+    <div class="center">
+      <img id="organziation-logo" src="{{ organization.logo }}" />
+      <h1 id="organization-name">{{ organization.name }}</h1>
+      <h3 id="application-name">{{ application.name }}{{ #application.version }} -{{ /application.version}} {{ application.version }}</h3>
+      <p>Generated: <span id="report-date">{{ specio.report_date }}</span>
+      </p>
+      <p>Specio Version: <span id="specio-version">{{ specio.version }}</span>
+      </p>
+    </div>
+  </section>
+  <section>
+    <div class="center">
+      <h1 id="report-toc">Table of contents</h1>
+    </div>
+    <div class="toc">
+      <div class="line">
+        <span class="toc-title">Application Configuration</span>
+        <span class="toc-divider">&nbsp;</span>
+        <span class="toc-page"><a href="#application-configuration">Page</a></span>
+      </div>
+      <div class="line">
+        <span class="toc-title">Test Cases</span>
+      </div>
+       {{ #features }}
+      <div class="line">
+        <span class="toc-title">{{feature_number }}: {{ name }}</span>
+        <span class="toc-divider">&nbsp;</span>
+        <span class="toc-page"><a href="#{{ id }}">Page</a></span>
+      </div>
+      {{ #has_deviations }}
+      <div class="line line-section">
+        <span class="toc-title">Deviations</span>
+        <span class="toc-divider">&nbsp;</span>
+        <span class="toc-page"><a href="#toc_{{ id }}_dev">Page</a></span>
+      </div>
+      {{ /has_deviations }}
+      {{ #has_attachments }}
+      <div class="line line-section">
+        <span class="toc-title">Figures</span>
+        <span class="toc-divider">&nbsp;</span>
+        <span class="toc-page"><a href="#toc_{{ id }}_fig">Page</a></span>
+      </div>
+      {{ /has_attachments }}
+      <div class="line line-section">
+        <span class="toc-title">Summary</span>
+        <span class="toc-divider">&nbsp;</span>
+        <span class="toc-page"><a href="#toc_{{ id }}_sum">Page</a></span>
+      </div>
+      {{ /features }}
+      <div class="line">
+        <span class="toc-title">Summary Checklist</span>
+        <span class="toc-divider">&nbsp;</span>
+        <span class="toc-page"><a href="#summary-checklist">Page</a></span>
+      </div>
+      <div class="line">
+        <span class="toc-title">Final Conclusion</span>
+        <span class="toc-divider">&nbsp;</span>
+        <span class="toc-page"><a href="#conclusion">Page</a></span>
+      </div>
+      <div class="line">
+        <span class="toc-title">Appendix</span>
+        <span class="toc-divider">&nbsp;</span>
+        <span class="toc-page"><a href="#appendix">Page</a></span>
+      </div>
+    </div>
+  </section>
+  <section>
+    <span class="signature-line" style="visibility: hidden; font-size: 1px;">Initials: _______________ Date:________________</span>
+    <h1 id="application-configuration">Application Configuration</h1>
+    <div class="grid-container">
+      <div class="grid-item"><strong>Application</strong>: {{ application.name }}</div>
+      <div class="grid-item"><strong>Application Version</strong>: {{ application.version }}</div>
+      <div class="grid-item"><strong>Browser &amp; Version</strong>: {{ specio.browser.name }} {{ specio.browser.version }}</div>
+      <div class="grid-item"><strong>OS &amp; Version</strong>: {{ specio.os.name }} {{ specio.os.version }}</div>
+      <div class="grid-item"><strong>Test User</strong>: {{ specio.user }}</div>
+      <div class="grid-item"><strong>Specio Version</strong>: {{ specio.version }}</div>
+      <div class="grid-item"><strong>Report Date</strong>: {{ specio.report_date }}</div>
+    </div>
+    <h1>Test Acceptance Criteria</h1>
+    <p> {{ test.acceptance_criteria }}</p>
+  </section>
+ {{ #features }}
+    {{> feature }}
+  {{ /features }}
+  <section>
+    <span id="summary-checklist">
+      {{> summary }}
+    </span>
+  </section>
+  <section>
+    <span id="conclusion">
+      {{> conclusion }}
+    </span>
+  </section>
+  <section>
+    <span id="appendix">
+      <h1>Setup Scripts</h1>
+      <span class="chapter" style="visibility: hidden; font-size: 1px;">Appendix: Setup Scripts</span>
+      <span class="signature-line" style="visibility: hidden; font-size: 1px;"></span>
+      {{ #setup_scripts }}
+        {{> setupscript }}
+      {{ /setup_scripts }}
+    </span>
+  </section>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<div class="summary-page">
+  <div class="summary-header center">
+    <h2>Summary Checklist</h2>
+  </div>
+  <table class="summary" >
+    <tbody>
+      <tr>
+        <th style="padding: 1ex;">
+          Test Case
+        </th>
+        <th style="padding: 1ex; text-align: center; width: 0.75in;">
+          Pass/Fail
+        </th>
+        <th style="text-align: center; width: 1in;">
+          Initials
+        </th>
+      </tr>
+      {{ # features }}
+      <tr class="summary-detail">
+        <td  style="padding: 1ex;">
+          Test Case {{ feature_number }} {{ name }}
+        </td>
+        <td class="yesno"  style="padding-left: 1ex;">
+          <ul>
+            <li class="{{ status }}">{{ status }}</li>
+          </ul>
+        </td>
+        <td class="" style="padding: 1ex;">
+        </td>
+      </tr>
+      {{ /features }}
+    </tbody>
+    <tfoot>
+      <tr class="signatures">
+        <th style="padding: 2ex;">
+          Completed By:
+        </th>
+        <th style="padding: 2ex; border-right: 0px">Date:</th>
+        <td style="padding: 2ex; border-left: 0px">
+        </td>
+      </tr>
+      <tr class="signatures">
+        <th style="padding: 2ex;">
+          Reviewed By:
+        </th>
+        <th style="padding: 2ex; border-right: 0px">Date:</th>
+        <td style="padding: 2ex; border-left: 0px">
+        </td>
+      </tr>
+</tfoot>
+  </table>
+</div>

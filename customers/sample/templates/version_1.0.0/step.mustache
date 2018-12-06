@@ -1,0 +1,53 @@
+<tr style="page-break-before: avoid">
+  <td>
+  </td>
+  <td class="instructions">
+    <ul class="condensed">
+      {{ #instructions }}
+      <li class="{{ status }}">
+        <strong>{{ keyword }}</strong>
+        {{ name }}
+          <p class="note">{{ note }}</p>
+      </li>
+      {{ /instructions }}
+    </ul>
+  </td>
+  <td colspan="2" class="all-results">
+    <table>
+      <tbody>
+         {{ #results }}
+        <tr>
+          <td class="expected-results">
+            <ul class="condensed">
+              <li>
+                <strong>{{ keyword }}</strong>
+                {{ name }}
+                  <p class="note">{{ note }}</p>
+              </li>
+            </ul>
+          </td>
+          <td class="actual-results" style="width: 50%; margin: 0px; border: 0px">
+            <ul class="condensed">
+              <li class="{{ status }}">
+                <span class="result-sentence">{{ result }}</span>
+                {{ #attachment_reference_id }}
+                  <a class="xref" href="#fig_{{ attachment_reference_id }}">page</a>
+                {{ /attachment_reference_id }}
+                    <p class="note">{{ #passed }}{{ note }}{{ /passed }}</p>
+              </li>
+            </ul>
+          </td>
+        </tr>
+        {{ /results }}
+      </tbody>
+    </table>
+  </td>
+  <td>
+    {{ #passed }}
+    <em class="passed">Passed</em>
+    {{ /passed }}
+    {{ ^passed }}
+    <em class="failed">Failure</em>
+    {{ /passed }}
+  </td>
+</tr>

@@ -1,0 +1,55 @@
+<div class="conclusion-page">
+  <div class="conclusion-header center">
+    <h2> Conclusion</h2>
+  </div>
+  <table class="conclusion">
+    <tbody>
+      <tr class="comments">
+        <td colspan="4">
+          <dl>
+            <dt>Comments/Additional Information</dt>
+            <dd></dd>
+          </dl>
+        </td>
+      </tr>
+      <tr class="conclusion">
+        <td colspan="2">
+          <dl>
+            <dt>Conclusion</dt>
+            <dd>
+              Did Actual Results for each step satisfy the PASS requirements?
+            </dd>
+          </dl>
+        </td>
+        <td class="yesno">
+          {{ #passed }}<span class="circle"><span class="passed">Yes</span></span>{{ /passed }}
+          {{ ^passed }}Yes{{ /passed }}
+        </td>
+        <td class="yesno">No
+        </td>
+      </tr>
+      <tr class="signatures">
+        <th>
+          Completed By
+        </th>
+        <td>
+        </td>
+        <th>Date:</th>
+        <td>
+        </td>
+      </tr>
+      <tr class="signatures">
+        <th>
+          Reviewed By
+        </th>
+        <td>
+
+        </td>
+        <th>Date:</th>
+        <td>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>
